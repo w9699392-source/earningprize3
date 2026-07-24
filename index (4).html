@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pakistan Prize Box | پاکستان پرائز باکس</title>
+    <style>
+        /* 
+        ========================================
+        CSS STYLES - PROFESSIONAL & RESPONSIVE
+        ========================================
+        */
+        :root {
+            --bg-black: #0A0A0A;
+            --card-gray: #1A1A1A;
+            --green-main: #00C853;
+            --green-hover: #00E676;
+            --gold-accent: #F0B90B;
+            --white: #FFFFFF;
+            --text-gray: #B0B0B0;
+            --red-error: #FF5252;
+            --nav-height: 60px;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-green { color: var(--green-main); }
+        .text-gold { color: var(--gold-accent); }
+        .btn-green { background: var(--green-main); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-green:hover { background: var(--green-hover); transform: translateY(-2px); }
+        .btn-green:disabled { background: #333; cursor: not-allowed; }
+        .btn-gold { background: var(--gold-accent); color: black; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .card { background: var(--card-gray); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #333; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+        /* Header */
+        header {
+            background: #000;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--green-main);
+        }
+
+        .logo { font-size: 1.2rem; font-weight: 800; color: var(--white); }
+        .hamburger { font-size: 24px; cursor: pointer; margin-right: 15px; }
+
+        /* Side Menu */
+        #sideMenu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--card-gray);
+            z-index: 2000;
+            transition: 0.3s ease;
+            overflow-y: auto;
+            padding-top: 20px;
+            border-right: 2px solid var(--green-main);
+        }
+        #sideMenu.active { left: 0; }
+        .menu-item { padding: 15px 25px; border-bottom: 1px solid #222; display: block; color: white; text-decoration: none; cursor: pointer; }
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1500;
+            display: none;
+        }
+
+        /* Bottom Navigation */
+        nav.bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #333;
+            z-index: 1000;
+        }
+        .nav-btn { text-align: center; color: var(--text-gray); flex: 1; font-size: 0.7rem; cursor: pointer; }
+        .nav-btn.active { color: var(--green-main); border-top: 3px solid var(--green-main); padding-top: 5px; }
+        .nav-btn i { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+
+        /* Page Container */
+        .page {
+            padding: 75px 15px 80px 15px;
+            min-height: 100vh;
+            display: none;
+        }
+        .page.active { display: block; }
+
+        /* Auth Screen */
+        #auth-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .auth-card { background: var(--card-gray); padding: 30px 20px; border-radius: 15px; border: 1px solid var(--green-main); }
+        .auth-input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; }
+
+        /* Dashboard Items */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-gray); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--gold-accent); }
+        .stat-val { font-size: 1.5rem; font-weight: bold; color: var(--gold-accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-gray); }
+
+        .ticker { background: #111; overflow: hidden; padding: 5px 0; border-bottom: 1px solid #222; }
+        .ticker-text { white-space: nowrap; animation: scrollText 20s linear infinite; font-size: 0.85rem; color: var(--green-main); }
+        @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Task System */
+        .task-card { background: var(--card-gray); padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid var(--green-main); }
+        .task-reward { font-weight: bold; color: var(--gold-accent); }
+        .locked-task { filter: grayscale(1); opacity: 0.7; }
+        .timer-badge { background: #333; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+
+        /* Quiz UI */
+        .quiz-container { text-align: right; direction: rtl; }
+        .quiz-option { display: block; width: 100%; padding: 12px; margin-bottom: 10px; background: #222; border: 1px solid #444; color: white; text-align: right; border-radius: 8px; cursor: pointer; }
+        .quiz-option:hover { background: #333; }
+        .correct { background: var(--green-main) !important; color: white; }
+        .wrong { background: var(--red-error) !important; color: white; }
+
+        /* Game UI */
+        #gameArea { position: relative; width: 300px; height: 300px; background: #000; border: 2px solid var(--green-main); margin: 20px auto; border-radius: 10px; overflow: hidden; }
+        #coin { position: absolute; font-size: 30px; cursor: pointer; transition: 0.1s; user-select: none; }
+
+        /* Prize Box Animation */
+        .prize-box-container { text-align: center; padding: 30px 0; }
+        #prizeBoxImg { font-size: 100px; cursor: pointer; transition: 0.3s; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .shake { animation: shake 0.5s infinite !important; }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 50% { transform: translate(1px, -1px) rotate(1deg); } 100% { transform: translate(1px, 1px) rotate(0deg); } }
+
+        /* Lucky Wheel */
+        .wheel-container { position: relative; width: 250px; height: 250px; margin: 20px auto; }
+        #wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid #333; position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .wheel-pin { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 30px; background: red; z-index: 10; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
+        /* Progress Bars */
+        .progress-container { background: #333; border-radius: 10px; height: 10px; width: 100%; margin: 10px 0; }
+        .progress-bar { background: var(--green-main); height: 100%; border-radius: 10px; width: 0%; transition: width 0.5s; }
+
+        /* Ad Containers */
+        .ad-container { border: 2px dashed #444; margin: 15px 0; display: flex; align-items: center; justify-content: center; background: #111; color: #555; position: relative; }
+        .ad-728x90 { width: 100%; height: 90px; }
+        .ad-300x250 { width: 300px; height: 250px; margin: 15px auto; }
+        .ad-label { position: absolute; top: 2px; left: 5px; font-size: 10px; }
+
+        /* Withdraw Lock Overlay */
+        .lock-overlay { text-align: center; padding: 40px 20px; background: rgba(0,0,0,0.9); border-radius: 15px; }
+        .lock-icon { font-size: 50px; color: var(--red-error); margin-bottom: 20px; }
+
+        /* Leaderboard Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { text-align: left; color: var(--green-main); border-bottom: 1px solid #444; padding: 10px; }
+        td { padding: 10px; border-bottom: 1px solid #222; }
+        .user-row-highlight { background: rgba(0, 200, 83, 0.1); border: 1px solid var(--green-main); }
+
+        /* FAQ Accordion */
+        .faq-item { background: #1a1a1a; margin-bottom: 10px; border-radius: 8px; }
+        .faq-question { padding: 15px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; }
+        .faq-answer { padding: 0 15px 15px 15px; color: var(--text-gray); display: none; }
+
+        /* Footer */
+        footer { background: #050505; padding: 40px 20px 100px 20px; border-top: 1px solid #222; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .footer-col h4 { color: var(--green-main); margin-bottom: 15px; }
+        .footer-col a { display: block; color: var(--text-gray); text-decoration: none; font-size: 0.9rem; margin-bottom: 8px; }
+
+        /* Confetti */
+        .confetti { position: fixed; width: 10px; height: 10px; background: #f00; z-index: 5000; }
+    </style>
+</head>
+<body>
+
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="auth-screen">
+        <div id="auth-container">
+            <h1 class="text-gold" style="margin-bottom: 5px;">Pakistan Prize Box</h1>
+            <h2 style="margin-bottom: 25px;">پاکستان پرائز باکس</h2>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="auth-card">
+                <h3 style="margin-bottom: 20px;">Welcome Back</h3>
+                <input type="email" id="login-email" class="auth-input" placeholder="Email Address">
+                <input type="password" id="login-pass" class="auth-input" placeholder="Password">
+                <button onclick="handleLogin()" class="btn-green">LOG IN</button>
+                <p style="margin-top: 20px; color: #888;">New here? <a href="#" onclick="toggleAuth(false)" style="color: var(--green-main);">Register Now</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="auth-card hidden">
+                <h3 style="margin-bottom: 20px;">Create Account</h3>
+                <input type="text" id="reg-name" class="auth-input" placeholder="Full Name">
+                <input type="email" id="reg-email" class="auth-input" placeholder="Email Address">
+                <input type="password" id="reg-pass" class="auth-input" placeholder="Password (Min 6 chars)">
+                <input type="password" id="reg-confirm" class="auth-input" placeholder="Confirm Password">
+                <button onclick="handleRegister()" class="btn-green">REGISTER</button>
+                <p style="margin-top: 20px; color: #888;">Already have an account? <a href="#" onclick="toggleAuth(true)" style="color: var(--green-main);">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE -->
+    <div id="app-structure" class="hidden">
+        <header>
+            <div class="hamburger" onclick="toggleMenu(true)">☰</div>
+            <div class="logo">🎁 Pakistan Prize Box</div>
+            <div id="user-display" style="margin-left: auto; font-size: 0.8rem; text-align: right;">
+                <span id="display-name" class="text-gold">User</span><br>
+                <span onclick="logout()" style="color: var(--red-error); cursor: pointer;">Logout</span>
+            </div>
+        </header>
+
+        <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu(false)"></div>
+        <div id="sideMenu">
+            <div style="padding: 20px; border-bottom: 1px solid #333;">
+                <h3 class="text-green">Menu</h3>
+            </div>
+            <div class="menu-item" onclick="navigate('home')">🏠 Home</div>
+            <div class="menu-item" onclick="navigate('tasks')">📝 Daily Tasks</div>
+            <div class="menu-item" onclick="navigate('prize')">🎁 Prize Box</div>
+            <div class="menu-item" onclick="navigate('leaderboard')">🏆 Leaderboard</div>
+            <div class="menu-item" onclick="navigate('referral')">👥 Refer & Earn</div>
+            <div class="menu-item" onclick="navigate('withdraw')">💰 Withdraw Cash</div>
+            <div class="menu-item" onclick="navigate('how')">📖 How It Works</div>
+            <div class="menu-item" onclick="navigate('faq')">❓ FAQ</div>
+            <div class="menu-item" onclick="navigate('about')">ℹ️ About Us</div>
+            <div class="menu-item" onclick="navigate('contact')">📧 Contact Us</div>
+            <div class="menu-item" onclick="navigate('privacy')">🔒 Privacy Policy</div>
+            <div class="menu-item" onclick="navigate('terms')">⚖️ Terms & Conditions</div>
+        </div>
+
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="ticker">
+                <div class="ticker-text" id="withdrawal-ticker">
+                    ✅ Ahmed just withdrew Rs. 15,400! | ✅ Fatima earned 250 points! | ✅ Ali just opened a Prize Box and won Rs. 100! | ✅ Sara referred a friend!
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h2>Asalam-o-Alaikum, <span id="welcome-name" class="text-green">User</span>! 👋</h2>
+                <p style="color: var(--text-gray); font-size: 0.9rem;">Mehnat Karen, Inaam Payen — Halal Earning.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-points">0</div>
+                    <div class="stat-label">Total Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-boxes">0</div>
+                    <div class="stat-label">Prize Boxes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-pkr">0</div>
+                    <div class="stat-label">Balance (PKR)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-refs">0/5</div>
+                    <div class="stat-label">Referrals</div>
+                </div>
+            </div>
+
+            <div class="card" style="border: 1px solid var(--green-main);">
+                <div class="flex-between">
+                    <div>
+                        <h4 class="text-green">Daily Check-in Bonus</h4>
+                        <p style="font-size: 0.8rem;">Claim Rs. 5 every 24 hours.</p>
+                    </div>
+                    <button id="daily-bonus-btn" onclick="claimDailyBonus()" class="btn-green" style="width: auto; padding: 8px 15px;">Claim</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="flex-between">
+                    <h4>Next Prize Box</h4>
+                    <span id="box-progress-text" style="font-size: 0.8rem;">0/500 Pts</span>
+                </div>
+                <div class="progress-container">
+                    <div id="box-progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="ad-container ad-728x90">
+                <span class="ad-label">Sponsored</span>
+                <p>Advertisement Space</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0;">
+                <button onclick="navigate('tasks')" class="btn-green" style="font-size: 0.7rem; padding: 10px 5px;">📝 TASKS</button>
+                <button onclick="navigate('prize')" class="btn-gold" style="font-size: 0.7rem; padding: 10px 5px;">🎁 PRIZE</button>
+                <button onclick="navigate('withdraw')" class="btn-green" style="font-size: 0.7rem; padding: 10px 5px;">💰 CASH</button>
+            </div>
+
+            <h3 style="margin-bottom: 15px;">Trustworthy Reviews</h3>
+            <div class="card" style="font-style: italic; font-size: 0.9rem;">
+                "Alhamdulillah, best platform for students. I earned Rs. 500 in my first week!" - <strong>Kamran A.</strong>
+            </div>
+            <div class="card" style="font-style: italic; font-size: 0.9rem;">
+                "Halal kamai hai, tasks simple hain. EasyPaisa withdrawal received." - <strong>Zoya K.</strong>
+            </div>
+
+            <div style="text-align: center; padding: 20px; color: var(--green-main);">
+                <p>🛡️ 100% Halal & Secure Platform</p>
+                <p style="font-size: 0.8rem; color: #555;">Users: 12,450+ | Paid: Rs. 5,430,200+</p>
+            </div>
+        </div>
+
+        <!-- TASKS PAGE -->
+        <div id="tasks" class="page">
+            <h2 class="text-green">Daily Tasks</h2>
+            <p style="color: var(--text-gray); margin-bottom: 20px;">Complete these tasks to earn points. Each task resets in 24 hours.</p>
+
+            <!-- Task 1: Quiz -->
+            <div id="task-card-1" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>📝 Daily Urdu Quiz</h4>
+                        <span class="task-reward">+30 Points</span>
+                    </div>
+                    <div id="status-1"><button onclick="startQuiz()" class="btn-green" style="width: auto;">Start</button></div>
+                </div>
+            </div>
+
+            <!-- Task 2: Catch Coin -->
+            <div id="task-card-2" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>🎮 Catch the Coin</h4>
+                        <span class="task-reward">+15 Points</span>
+                    </div>
+                    <div id="status-2"><button onclick="startGame()" class="btn-green" style="width: auto;">Play</button></div>
+                </div>
+            </div>
+
+            <!-- Task 3: Survey -->
+            <div id="task-card-3" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>✍️ Market Survey</h4>
+                        <span class="task-reward">+20 Points</span>
+                    </div>
+                    <div id="status-3"><button onclick="startSurvey()" class="btn-green" style="width: auto;">Start</button></div>
+                </div>
+            </div>
+
+            <div class="ad-container ad-300x250">
+                <span class="ad-label">Sponsored</span>
+                <p>Advertisement Space</p>
+            </div>
+
+            <!-- Task 4: Word Scramble -->
+            <div id="task-card-4" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>🔤 Word Scramble</h4>
+                        <span class="task-reward">+15 Points</span>
+                    </div>
+                    <div id="status-4"><button onclick="startScramble()" class="btn-green" style="width: auto;">Start</button></div>
+                </div>
+            </div>
+
+            <!-- Task 5: Lucky Wheel -->
+            <div id="task-card-5" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>🎰 Lucky Spin</h4>
+                        <span class="task-reward">Up to 50 Pts</span>
+                    </div>
+                    <div id="status-5"><button onclick="showWheel()" class="btn-green" style="width: auto;">Spin</button></div>
+                </div>
+            </div>
+
+            <!-- Task 6: Video -->
+            <div id="task-card-6" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>📺 Educational Video</h4>
+                        <span class="task-reward">+10 Points</span>
+                    </div>
+                    <div id="status-6"><button onclick="startVideo()" class="btn-green" style="width: auto;">Watch</button></div>
+                </div>
+            </div>
+
+            <!-- Task 7: Article -->
+            <div id="task-card-7" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>📰 Read & Answer</h4>
+                        <span class="task-reward">+25 Points</span>
+                    </div>
+                    <div id="status-7"><button onclick="startArticle()" class="btn-green" style="width: auto;">Read</button></div>
+                </div>
+            </div>
+
+            <!-- Task 8: Puzzle -->
+            <div id="task-card-8" class="task-card">
+                <div class="flex-between">
+                    <div>
+                        <h4>🧩 Mind Puzzle</h4>
+                        <span class="task-reward">+10 Points</span>
+                    </div>
+                    <div id="status-8"><button onclick="startPuzzle()" class="btn-green" style="width: auto;">Solve</button></div>
+                </div>
+            </div>
+
+            <!-- Task Modals (Hidden by default) -->
+            <div id="task-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; padding: 40px 20px; overflow-y: auto;">
+                <div id="modal-content"></div>
+                <button onclick="closeModal()" class="btn-gold" style="margin-top: 20px;">Cancel & Exit</button>
+            </div>
+        </div>
+
+        <!-- PRIZE BOX PAGE -->
+        <div id="prize" class="page">
+            <h2 class="text-gold">Prize Box</h2>
+            <div class="card" style="text-align: center;">
+                <p>Collect 500 Points to open a Prize Box.</p>
+                <div class="prize-box-container">
+                    <div id="prizeBoxImg">🎁</div>
+                </div>
+                <h3 id="prize-points-info">Current Pts: 0</h3>
+                <br>
+                <button id="open-box-btn" onclick="handleOpenBox()" class="btn-gold" disabled>OPEN BOX (Need 500 Pts)</button>
+            </div>
+            <div class="card">
+                <h4>Recent Wins</h4>
+                <div id="recent-wins-list" style="font-size: 0.9rem; color: var(--text-gray);">
+                    - User K.*** won Rs. 50<br>
+                    - User S.*** won Rs. 10<br>
+                    - User M.*** won Rs. 100
+                </div>
+            </div>
+        </div>
+
+        <!-- WITHDRAW PAGE -->
+        <div id="withdraw" class="page">
+            <h2 class="text-green">Withdraw Cash</h2>
+            
+            <!-- Conditional Withdrawal -->
+            <div id="withdraw-locked" class="lock-overlay hidden">
+                <div class="lock-icon">🔒</div>
+                <h3>Withdrawal Locked</h3>
+                <p id="withdraw-lock-msg">You need 5 referrals to unlock withdrawals.</p>
+                <button onclick="navigate('referral')" class="btn-green" style="margin-top: 15px;">Refer Friends Now</button>
+            </div>
+
+            <div id="withdraw-content" class="hidden">
+                <div class="card">
+                    <div class="flex-between">
+                        <h4>Available Balance</h4>
+                        <h3 class="text-green" id="withdraw-balance-display">Rs. 0</h3>
+                    </div>
+                    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Minimum: Rs. 15,000</p>
+                </div>
+
+                <div id="withdraw-form-div" class="card">
+                    <h3 style="margin-bottom: 15px;">Request Payment</h3>
+                    <select id="wd-method" class="auth-input">
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="EasyPaisa">EasyPaisa</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
+                    <input type="text" id="wd-acc-num" class="auth-input" placeholder="Account Number">
+                    <input type="text" id="wd-acc-name" class="auth-input" placeholder="Account Holder Name">
+                    <input type="number" id="wd-amount" class="auth-input" placeholder="Amount (Min 15,000)">
+                    <button onclick="processWithdrawal()" class="btn-green">SUBMIT REQUEST</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h4>History</h4>
+                <div id="wd-history" style="font-size: 0.8rem; color: #666;">No transactions yet.</div>
+            </div>
+        </div>
+
+        <!-- LEADERBOARD PAGE -->
+        <div id="leaderboard" class="page">
+            <h2 class="text-gold">Top Earners</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Dynamic Rows -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- REFERRAL PAGE -->
+        <div id="referral" class="page">
+            <h2 class="text-green">Refer & Earn</h2>
+            <div class="card" style="text-align: center;">
+                <p>Share your link and earn +25 Points for every friend who joins.</p>
+                <div style="background: #000; padding: 15px; border: 1px dashed var(--green-main); margin: 15px 0; font-size: 0.9rem;">
+                    <span id="ref-link-text">earndost.pk/?ref=XXXXX</span>
+                </div>
+                <button onclick="copyRefLink()" class="btn-green">Copy Link</button>
+                <button onclick="shareWhatsApp()" class="btn-green" style="margin-top: 10px; background: #25D366;">Share on WhatsApp</button>
+            </div>
+            <div class="card">
+                <div class="flex-between">
+                    <h4>Your Referrals</h4>
+                    <span id="ref-count-display">0/5</span>
+                </div>
+                <div class="progress-container">
+                    <div id="ref-progress-bar" class="progress-bar"></div>
+                </div>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 10px;">*5 Referrals required for withdrawal unlock.</p>
+            </div>
+            <button onclick="simulateReferral()" class="btn-gold" style="font-size: 0.8rem;">[Demo] Simulate New Referral</button>
+        </div>
+
+        <!-- OTHER PAGES -->
+        <div id="how" class="page">
+            <h2 class="text-green">How It Works</h2>
+            <div class="card">
+                <p><strong>1. Register:</strong> Create your free account in seconds.</p><br>
+                <p><strong>2. Complete Tasks:</strong> Visit daily to play games, solve quizzes, and watch videos.</p><br>
+                <p><strong>3. Earn Points:</strong> Every task gives you points. 100 points = Rs. 10 approx.</p><br>
+                <p><strong>4. Cash Out:</strong> Once you reach the threshold, withdraw to JazzCash or EasyPaisa.</p>
+            </div>
+        </div>
+
+        <div id="faq" class="page">
+            <h2 class="text-green">Frequently Asked Questions</h2>
+            <div id="faq-list" style="margin-top: 20px;"></div>
+        </div>
+
+        <div id="about" class="page">
+            <h2 class="text-green">About Us</h2>
+            <div class="card">
+                <p>Pakistan Prize Box is dedicated to providing a legitimate, Halal micro-task platform for the Pakistani community. Our mission is "Mehnat ki Kamai" — rewarding genuine effort.</p><br>
+                <p>We believe in transparency and community growth. By connecting users with simple tasks, we help brands reach audiences while rewarding you for your time.</p>
+            </div>
+        </div>
+
+        <div id="contact" class="page">
+            <h2 class="text-green">Contact Us</h2>
+            <div class="card">
+                <input type="text" id="contact-name" class="auth-input" placeholder="Your Name">
+                <input type="email" id="contact-email" class="auth-input" placeholder="Your Email">
+                <textarea id="contact-msg" class="auth-input" style="height: 100px;" placeholder="Your Message"></textarea>
+                <button onclick="submitContact()" class="btn-green">SEND MESSAGE</button>
+            </div>
+        </div>
+
+        <div id="privacy" class="page">
+            <h2 class="text-green">Privacy Policy</h2>
+            <div class="card" style="font-size: 0.8rem; height: 300px; overflow-y: auto;">
+                <p><strong>1. Data Collection:</strong> We collect only necessary data like email and name.</p>
+                <p><strong>2. Security:</strong> Your data is stored securely in our systems.</p>
+                <p><strong>3. Cookies:</strong> We use local storage to keep you logged in.</p>
+                <p><strong>4. Third Parties:</strong> We do not sell your personal data to third parties.</p>
+                <p><strong>5. Financial Info:</strong> We only store withdrawal account numbers for processing payments.</p>
+                <p><strong>6. Ads:</strong> We use advertisement partners who may collect anonymous usage data.</p>
+                <p><strong>7. Age Limit:</strong> Users must be at least 18 years old.</p>
+                <p><strong>8. Account Deletion:</strong> You can request account deletion at any time.</p>
+                <p><strong>9. Location:</strong> Services are currently restricted to Pakistan.</p>
+                <p><strong>10. Changes:</strong> Policy may be updated periodically.</p>
+            </div>
+        </div>
+
+        <div id="terms" class="page">
+            <h2 class="text-green">Terms & Conditions</h2>
+            <div class="card" style="font-size: 0.8rem;">
+                <p>1. Multiple accounts per person are strictly prohibited.</p>
+                <p>2. Use of VPNs or bots will lead to immediate ban.</p>
+                <p>3. Points are only rewarded for successfully completed tasks.</p>
+                <p>4. Withdrawals can take 3-7 working days to process.</p>
+                <p>5. We reserve the right to modify rewards based on market conditions.</p>
+                <p>6. Referrals must be unique, real users.</p>
+                <p>7. Minimum withdrawal limit must be met before request.</p>
+                <p>8. All earnings are "Mehnat ki Kamai" based on active participation.</p>
+            </div>
+        </div>
+
+        <div class="ad-container ad-728x90">
+            <span class="ad-label">Sponsored</span>
+            <p>Advertisement Space</p>
+        </div>
+
+        <!-- Footer Area -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#" onclick="navigate('about')">About Us</a>
+                    <a href="#" onclick="navigate('contact')">Contact</a>
+                    <a href="#" onclick="navigate('how')">How It Works</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#" onclick="navigate('privacy')">Privacy</a>
+                    <a href="#" onclick="navigate('terms')">Terms</a>
+                    <a href="#" onclick="navigate('disclaimer')">Disclaimer</a>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 30px; font-size: 0.7rem; color: #444;">
+                © 2025 Pakistan Prize Box. All rights reserved.<br>
+                Mehnat ki Kamai — 100% Halal.
+            </p>
+        </footer>
+
+        <!-- BOTTOM NAV BAR -->
+        <nav class="bottom-nav">
+            <div class="nav-btn active" id="nav-home" onclick="navigate('home')">
+                <i>🏠</i>Home
+            </div>
+            <div class="nav-btn" id="nav-tasks" onclick="navigate('tasks')">
+                <i>📝</i>Tasks
+            </div>
+            <div class="nav-btn" id="nav-prize" onclick="navigate('prize')">
+                <i>🎁</i>Prize
+            </div>
+            <div class="nav-btn" id="nav-leaderboard" onclick="navigate('leaderboard')">
+                <i>🏆</i>Top
+            </div>
+            <div class="nav-btn" id="nav-withdraw" onclick="navigate('withdraw')">
+                <i>💰</i>Cash
+            </div>
+        </nav>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* 
+        ========================================
+        CORE STATE MANAGEMENT
+        ========================================
+        */
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        const TASK_LOCK_DURATION = 24 * 60 * 60 * 1000; // 24 Hours
+
+        // Initialize App
+        window.onload = function() {
+            checkSession();
+            renderFAQ();
+            updateLockTimers();
+            setInterval(updateLockTimers, 1000);
+        };
+
+        function checkSession() {
+            const stored = localStorage.getItem('currentUser');
+            if (stored) {
+                currentUser = JSON.parse(stored);
+                showApp();
+            } else {
+                showAuth();
+            }
+        }
+
+        function showAuth() {
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('app-structure').classList.add('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-structure').classList.remove('hidden');
+            updateUI();
+            navigate('home');
+        }
+
+        function toggleAuth(isLogin) {
+            document.getElementById('login-form').classList.toggle('hidden', !isLogin);
+            document.getElementById('register-form').classList.toggle('hidden', isLogin);
+        }
+
+        /* 
+        ========================================
+        AUTHENTICATION LOGIC
+        ========================================
+        */
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const pass = document.getElementById('reg-pass').value;
+            const confirm = document.getElementById('reg-confirm').value;
+
+            if (!name || !email || !pass) return alert("Please fill all fields.");
+            if (!email.includes('@')) return alert("Invalid email.");
+            if (pass.length < 6) return alert("Password must be 6+ chars.");
+            if (pass !== confirm) return alert("Passwords do not match.");
+            if (users.find(u => u.email === email)) return alert("User already exists.");
+
+            const newUser = {
+                name, email, pass,
+                points: 0,
+                balance: 0,
+                referrals: 0,
+                refCode: Math.random().toString(36).substring(2, 10).toUpperCase(),
+                prizeBoxes: 0,
+                tasksCompleted: {},
+                lastBonus: 0,
+                withdrawals: []
+            };
+
+            users.push(newUser);
+            saveUsers();
+            alert("Registration successful! Please login.");
+            toggleAuth(true);
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-pass').value;
+
+            const user = users.find(u => u.email === email && u.pass === pass);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showApp();
+            } else {
+                alert("Invalid credentials.");
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showAuth();
+        }
+
+        function saveUsers() {
+            localStorage.setItem('users', JSON.stringify(users));
+            if (currentUser) {
+                const idx = users.findIndex(u => u.email === currentUser.email);
+                if (idx !== -1) users[idx] = currentUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        /* 
+        ========================================
+        NAVIGATION & UI
+        ========================================
+        */
+        function navigate(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(b => b.classList.remove('active'));
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) activeNav.classList.add('active');
+
+            toggleMenu(false);
+            window.scrollTo(0,0);
+            updateUI();
+
+            if (pageId === 'leaderboard') renderLeaderboard();
+        }
+
+        function toggleMenu(open) {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('menuOverlay');
+            if (open) {
+                menu.classList.add('active');
+                overlay.style.display = 'block';
+            } else {
+                menu.classList.remove('active');
+                overlay.style.display = 'none';
+            }
+        }
+
+        function updateUI() {
+            if (!currentUser) return;
+            document.getElementById('display-name').innerText = currentUser.name;
+            document.getElementById('welcome-name').innerText = currentUser.name;
+            document.getElementById('stat-points').innerText = currentUser.points;
+            document.getElementById('stat-boxes').innerText = currentUser.prizeBoxes;
+            document.getElementById('stat-pkr').innerText = currentUser.balance;
+            document.getElementById('stat-refs').innerText = currentUser.referrals + "/5";
+
+            // Box Progress
+            const progress = (currentUser.points % 500) / 500 * 100;
+            document.getElementById('box-progress-bar').style.width = progress + "%";
+            document.getElementById('box-progress-text').innerText = (currentUser.points % 500) + "/500 Pts";
+            
+            // Referral Progress
+            const refProg = (currentUser.referrals / 5) * 100;
+            document.getElementById('ref-progress-bar').style.width = Math.min(refProg, 100) + "%";
+            document.getElementById('ref-count-display').innerText = currentUser.referrals + "/5";
+            document.getElementById('ref-link-text').innerText = "earndost.pk/?ref=" + currentUser.refCode;
+
+            // Daily Bonus
+            const now = Date.now();
+            const btn = document.getElementById('daily-bonus-btn');
+            if (now - currentUser.lastBonus < TASK_LOCK_DURATION) {
+                btn.innerText = "✅ Claimed";
+                btn.disabled = true;
+            } else {
+                btn.innerText = "Claim";
+                btn.disabled = false;
+            }
+
+            // Prize Page
+            document.getElementById('prize-points-info').innerText = "Current Pts: " + currentUser.points;
+            const openBtn = document.getElementById('open-box-btn');
+            if (currentUser.points >= 500) {
+                openBtn.disabled = false;
+                openBtn.innerText = "OPEN PRIZE BOX";
+            } else {
+                openBtn.disabled = true;
+                openBtn.innerText = "Need 500 Pts";
+            }
+
+            // Withdraw Logic
+            const withdrawContent = document.getElementById('withdraw-content');
+            const withdrawLocked = document.getElementById('withdraw-locked');
+            if (currentUser.referrals >= 5) {
+                withdrawContent.classList.remove('hidden');
+                withdrawLocked.classList.add('hidden');
+                document.getElementById('withdraw-balance-display').innerText = "Rs. " + currentUser.balance;
+            } else {
+                withdrawContent.classList.add('hidden');
+                withdrawLocked.classList.remove('hidden');
+                document.getElementById('withdraw-lock-msg').innerText = "You need " + (5 - currentUser.referrals) + " more referrals to unlock.";
+            }
+
+            renderTaskStates();
+        }
+
+        /* 
+        ========================================
+        TASK LOCK SYSTEM
+        ========================================
+        */
+        function renderTaskStates() {
+            for (let i = 1; i <= 8; i++) {
+                const lastDone = currentUser.tasksCompleted['task' + i] || 0;
+                const now = Date.now();
+                const container = document.getElementById('status-' + i);
+                const card = document.getElementById('task-card-' + i);
+
+                if (now - lastDone < TASK_LOCK_DURATION) {
+                    card.classList.add('locked-task');
+                    container.innerHTML = `<span class="timer-badge" id="timer-${i}">Locked</span>`;
+                } else {
+                    card.classList.remove('locked-task');
+                    // Reset button inner HTML if it was changed
+                    if (container.innerHTML.includes('timer-')) {
+                        const labels = ["Start", "Play", "Start", "Start", "Spin", "Watch", "Read", "Solve"];
+                        const actions = ["startQuiz()", "startGame()", "startSurvey()", "startScramble()", "showWheel()", "startVideo()", "startArticle()", "startPuzzle()"];
+                        container.innerHTML = `<button onclick="${actions[i-1]}" class="btn-green" style="width: auto;">${labels[i-1]}</button>`;
+                    }
+                }
+            }
+        }
+
+        function updateLockTimers() {
+            if (!currentUser) return;
+            const now = Date.now();
+            for (let i = 1; i <= 8; i++) {
+                const timerEl = document.getElementById('timer-' + i);
+                if (timerEl) {
+                    const lastDone = currentUser.tasksCompleted['task' + i];
+                    const remaining = TASK_LOCK_DURATION - (now - lastDone);
+                    if (remaining <= 0) {
+                        renderTaskStates();
+                    } else {
+                        const h = Math.floor(remaining / 3600000);
+                        const m = Math.floor((remaining % 3600000) / 60000);
+                        const s = Math.floor((remaining % 60000) / 1000);
+                        timerEl.innerText = `Available in ${h}h ${m}m ${s}s`;
+                    }
+                }
+            }
+        }
+
+        function completeTask(taskId, points) {
+            currentUser.points += points;
+            currentUser.tasksCompleted['task' + taskId] = Date.now();
+            saveUsers();
+            updateUI();
+            alert(`Task Completed! You earned ${points} points.`);
+            closeModal();
+        }
+
+        /* 
+        ========================================
+        TASK IMPLEMENTATIONS
+        ========================================
+        */
+        const modal = document.getElementById('task-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(content) {
+            modalContent.innerHTML = content;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modalContent.innerHTML = "";
+            // Clean up intervals if any
+            if (window.taskInterval) clearInterval(window.taskInterval);
+        }
+
+        // TASK 1: QUIZ
+        function startQuiz() {
+            const questions = [
+                { q: "پاکستان کا دارالحکومت کیا ہے؟", o: ["اسلام آباد", "کراچی", "لاہور", "پشاور"], a: 0 },
+                { q: "پاکستان کی قومی زبان کیا ہے؟", o: ["اردو", "پنجابی", "سندھی", "بلوچی"], a: 0 },
+                { q: "قرآن پاک میں کتنی سورتیں ہیں؟", o: ["114", "100", "120", "110"], a: 0 },
+                { q: "پاکستان کا یوم آزادی کب ہے؟", o: ["14 اگست", "23 مارچ", "6 ستمبر", "25 دسمبر"], a: 0 },
+                { q: "سب سے پہلے اسلام کس نے قبول کیا؟", o: ["حضرت خدیجہؓ", "حضرت ابوبکرؓ", "حضرت علیؓ", "حضرت عمرؓ"], a: 0 },
+                { q: "پاکستان کا سب سے بڑا صوبہ کون سا ہے؟", o: ["بلوچستان", "پنجاب", "سندھ", "KPK"], a: 0 },
+                { q: "پاکستان کی کرنسی کیا ہے؟", o: ["روپیہ", "ڈالر", "پاؤنڈ", "ریال"], a: 0 },
+                { q: "قائد اعظم کا مزار کہاں ہے؟", o: ["کراچی", "لاہور", "اسلام آباد", "پشاور"], a: 0 },
+                { q: "پاکستان کا قومی کھیل کیا ہے؟", o: ["ہاکی", "کرکٹ", "فٹبال", "سکواش"], a: 0 },
+                { q: "اسلام کے ارکان کتنے ہیں؟", o: ["5", "4", "6", "3"], a: 0 }
+            ];
+            
+            let cur = 0;
+            let score = 0;
+
+            const loadQ = () => {
+                const q = questions[cur];
+                let html = `<div class="quiz-container">
+                    <h3 class="text-gold">سوال ${cur + 1} / 10</h3>
+                    <p style="font-size: 1.3rem; margin: 20px 0;">${q.q}</p>
+                    ${q.o.map((opt, i) => `<button class="quiz-option" onclick="checkAnswer(${i}, ${q.a})">${opt}</button>`).join('')}
+                    <div id="quiz-timer" style="text-align: center; font-weight: bold; margin-top: 10px;">Time: 15s</div>
+                </div>`;
+                openModal(html);
+                
+                let timeLeft = 15;
+                window.taskInterval = setInterval(() => {
+                    timeLeft--;
+                    document.getElementById('quiz-timer').innerText = `Time: ${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        clearInterval(window.taskInterval);
+                        nextQ();
+                    }
+                }, 1000);
+            };
+
+            window.checkAnswer = (idx, correct) => {
+                clearInterval(window.taskInterval);
+                const btns = document.querySelectorAll('.quiz-option');
+                if (idx === correct) {
+                    btns[idx].classList.add('correct');
+                    score++;
+                } else {
+                    btns[idx].classList.add('wrong');
+                    btns[correct].classList.add('correct');
+                }
+                setTimeout(nextQ, 1500);
+            };
+
+            const nextQ = () => {
+                cur++;
+                if (cur < questions.length) loadQ();
+                else {
+                    if (score >= 7) completeTask(1, 30);
+                    else { alert(`Score: ${score}/10. You need 7/10 to earn points.`); closeModal(); }
+                }
+            };
+
+            loadQ();
+        }
+
+        // TASK 2: GAME
+        function startGame() {
+            let count = 0;
+            let timeLeft = 30;
+            openModal(`
+                <div style="text-align: center;">
+                    <h3>Catch the Coin (10 Needed)</h3>
+                    <p>Score: <span id="game-score">0</span> | Time: <span id="game-time">30</span>s</p>
+                    <div id="gameArea">
+                        <div id="coin" onclick="catchCoin()">🪙</div>
+                    </div>
+                </div>
+            `);
+            
+            const coin = document.getElementById('coin');
+            const moveCoin = () => {
+                coin.style.top = Math.random() * 260 + "px";
+                coin.style.left = Math.random() * 260 + "px";
+            };
+            moveCoin();
+
+            window.catchCoin = () => {
+                count++;
+                document.getElementById('game-score').innerText = count;
+                if (count >= 10) {
+                    clearInterval(window.taskInterval);
+                    completeTask(2, 15);
+                } else {
+                    moveCoin();
+                }
+            };
+
+            window.taskInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('game-time').innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(window.taskInterval);
+                    alert("Time's up!");
+                    closeModal();
+                }
+            }, 1000);
+        }
+
+        // TASK 3: SURVEY
+        function startSurvey() {
+            const qs = [
+                "Which mobile brand do you prefer?",
+                "What is your age group?",
+                "Which province are you from?",
+                "What type of tasks do you prefer?",
+                "How did you hear about us?"
+            ];
+            const opts = [
+                ["Samsung", "iPhone", "Infinix", "Xiaomi"],
+                ["18-25", "26-35", "36-50", "50+"],
+                ["Punjab", "Sindh", "KPK", "Balochistan"],
+                ["Videos", "Quizzes", "Games", "All"],
+                ["Social Media", "Friend", "YouTube", "Other"]
+            ];
+            let cur = 0;
+            const nextS = () => {
+                if (cur < qs.length) {
+                    openModal(`
+                        <h3>Question ${cur+1}</h3>
+                        <p style="margin: 20px 0;">${qs[cur]}</p>
+                        ${opts[cur].map(o => `<button class="quiz-option" onclick="window.nextS_fn()">${o}</button>`).join('')}
+                    `);
+                    cur++;
+                } else {
+                    completeTask(3, 20);
+                }
+            };
+            window.nextS_fn = nextS;
+            nextS();
+        }
+
+        // TASK 4: SCRAMBLE
+        function startScramble() {
+            const words = ["PAKISTAN", "ISLAMABAD", "KARACHI", "LAHORE", "PESHAWAR"];
+            let idx = 0;
+            const showS = () => {
+                const word = words[idx];
+                const scrambled = word.split('').sort(() => 0.5 - Math.random()).join('');
+                openModal(`
+                    <h3>Unscramble the Word (${idx+1}/5)</h3>
+                    <h2 class="text-gold" style="letter-spacing: 5px; margin: 30px 0;">${scrambled}</h2>
+                    <input type="text" id="scramble-input" class="auth-input" placeholder="Your Answer">
+                    <button onclick="checkS()" class="btn-green">Submit</button>
+                `);
+            };
+            window.checkS = () => {
+                const val = document.getElementById('scramble-input').value.toUpperCase();
+                if (val === words[idx]) {
+                    idx++;
+                    if (idx < 5) showS();
+                    else completeTask(4, 15);
+                } else {
+                    alert("Wrong answer!");
+                    closeModal();
+                }
+            };
+            showS();
+        }
+
+        // TASK 5: LUCKY WHEEL
+        function showWheel() {
+            openModal(`
+                <div style="text-align: center;">
+                    <h3>Lucky Spin</h3>
+                    <div class="wheel-container">
+                        <div class="wheel-pin"></div>
+                        <div id="wheel" style="background: conic-gradient(
+                            #00C853 0deg 60deg, 
+                            #F0B90B 60deg 120deg, 
+                            #00C853 120deg 180deg, 
+                            #F0B90B 180deg 240deg, 
+                            #00C853 240deg 300deg, 
+                            #F0B90B 300deg 360deg
+                        );">
+                            <div style="position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: black;">
+                                <span style="transform: rotate(30deg) translateY(-80px);">5 Pts</span>
+                                <span style="transform: rotate(90deg) translateY(-80px);">10 Pts</span>
+                                <span style="transform: rotate(150deg) translateY(-80px);">20 Pts</span>
+                                <span style="transform: rotate(210deg) translateY(-80px);">30 Pts</span>
+                                <span style="transform: rotate(270deg) translateY(-80px);">50 Pts</span>
+                                <span style="transform: rotate(330deg) translateY(-80px);">10 Pts</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="spinNow()" id="spinBtn" class="btn-green" style="margin-top: 20px;">SPIN NOW</button>
+                </div>
+            `);
+        }
+
+        window.spinNow = () => {
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
+            const wheel = document.getElementById('wheel');
+            const deg = Math.floor(3000 + Math.random() * 3000);
+            wheel.style.transform = `rotate(${deg}deg)`;
+            
+            setTimeout(() => {
+                const results = [5, 10, 20, 30, 50, 10];
+                const actualDeg = deg % 360;
+                const index = Math.floor((360 - (actualDeg)) / 60) % 6;
+                completeTask(5, results[index]);
+            }, 4500);
+        };
+
+        // TASK 6: VIDEO
+        function startVideo() {
+            let timeLeft = 60;
+            openModal(`
+                <div style="text-align: center;">
+                    <h3>Watch Video Reward</h3>
+                    <div style="width: 100%; height: 200px; background: #000; display: flex; align-items: center; justify-content: center; margin: 20px 0; border: 1px solid #333;">
+                        <span style="font-size: 50px;">▶️</span>
+                    </div>
+                    <p id="vid-timer">Wait ${timeLeft} seconds...</p>
+                    <button id="claim-vid" class="btn-green" disabled onclick="completeTask(6, 10)">Claim Reward</button>
+                </div>
+            `);
+            window.taskInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('vid-timer').innerText = `Wait ${timeLeft} seconds...`;
+                if (timeLeft <= 0) {
+                    clearInterval(window.taskInterval);
+                    document.getElementById('claim-vid').disabled = false;
+                    document.getElementById('vid-timer').innerText = "Video complete!";
+                }
+            }, 1000);
+        }
+
+        // TASK 7: ARTICLE
+        function startArticle() {
+            let timeLeft = 45;
+            openModal(`
+                <div style="text-align: right; direction: rtl;">
+                    <h3>سولر انرجی کے فوائد</h3>
+                    <p style="font-size: 0.9rem; margin-top: 15px;">پاکستان میں بجلی کی بڑھتی ہوئی قیمتوں کی وجہ سے سولر انرجی ایک بہترین حل بن چکا ہے۔ یہ نہ صرف سستی ہے بلکہ ماحول دوست بھی ہے۔ سولر پینلز سورج کی روشنی کو براہ راست بجلی میں تبدیل کرتے ہیں۔ حکومتِ پاکستان بھی سولر انرجی کے استعمال پر زور دے رہی ہے تاکہ توانائی کے بحران پر قابو پایا جا سکے۔</p>
+                    <div style="text-align: center; margin: 20px 0;" id="art-timer">45s remaining...</div>
+                </div>
+            `);
+            window.taskInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('art-timer').innerText = `${timeLeft}s remaining...`;
+                if (timeLeft <= 0) {
+                    clearInterval(window.taskInterval);
+                    showArticleQuiz();
+                }
+            }, 1000);
+        }
+        function showArticleQuiz() {
+            openModal(`
+                <h3>Question: What converts sunlight to electricity?</h3>
+                <button class="quiz-option" onclick="completeTask(7, 25)">Solar Panels</button>
+                <button class="quiz-option" onclick="closeModal()">Steam</button>
+                <button class="quiz-option" onclick="closeModal()">Coal</button>
+            `);
+        }
+
+        // TASK 8: PUZZLE
+        function startPuzzle() {
+            const puzzles = [
+                { q: "What is 15 + 27?", a: "42" },
+                { q: "I have cities but no houses. What am I?", a: "MAP" },
+                { q: "What is 100 / 4?", a: "25" }
+            ];
+            const p = puzzles[Math.floor(Math.random() * puzzles.length)];
+            openModal(`
+                <h3>Daily Puzzle</h3>
+                <p style="margin: 20px 0;">${p.q}</p>
+                <input type="text" id="puzzle-ans" class="auth-input" placeholder="Your Answer">
+                <button onclick="checkP('${p.a}')" class="btn-green">Submit</button>
+            `);
+            window.checkP = (correct) => {
+                const val = document.getElementById('puzzle-ans').value.toUpperCase();
+                if (val === correct) completeTask(8, 10);
+                else { alert("Wrong answer!"); closeModal(); }
+            };
+        }
+
+        /* 
+        ========================================
+        BONUS & REFERRAL
+        ========================================
+        */
+        function claimDailyBonus() {
+            const now = Date.now();
+            if (now - currentUser.lastBonus >= TASK_LOCK_DURATION) {
+                currentUser.balance += 5;
+                currentUser.lastBonus = now;
+                saveUsers();
+                updateUI();
+                alert("Daily Bonus of Rs. 5 added!");
+            }
+        }
+
+        function simulateReferral() {
+            currentUser.referrals++;
+            currentUser.points += 25;
+            saveUsers();
+            updateUI();
+            alert("Referral Simulated! +25 Points added.");
+        }
+
+        function copyRefLink() {
+            const link = "earndost.pk/?ref=" + currentUser.refCode;
+            navigator.clipboard.writeText(link);
+            alert("Referral link copied!");
+        }
+
+        function shareWhatsApp() {
+            const link = "earndost.pk/?ref=" + currentUser.refCode;
+            window.open(`https://wa.me/?text=Join Pakistan Prize Box and earn Rs. 500 daily! My Code: ${currentUser.refCode} Link: ${link}`);
+        }
+
+        /* 
+        ========================================
+        PRIZE BOX SYSTEM
+        ========================================
+        */
+        function handleOpenBox() {
+            if (currentUser.points < 500) return;
+            
+            const box = document.getElementById('prizeBoxImg');
+            box.classList.add('shake');
+            document.getElementById('open-box-btn').disabled = true;
+
+            setTimeout(() => {
+                box.classList.remove('shake');
+                const winAmounts = [10, 20, 50, 100];
+                const win = winAmounts[Math.floor(Math.random() * winAmounts.length)];
+                
+                currentUser.points -= 500;
+                currentUser.balance += win;
+                currentUser.prizeBoxes++;
+                
+                saveUsers();
+                updateUI();
+                
+                spawnConfetti();
+                alert(`CONGRATULATIONS! You won Rs. ${win}!`);
+            }, 2000);
+        }
+
+        function spawnConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const div = document.createElement('div');
+                div.className = 'confetti';
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.top = '-10px';
+                div.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                document.body.appendChild(div);
+                
+                let pos = 0;
+                const int = setInterval(() => {
+                    pos += 5;
+                    div.style.top = pos + 'px';
+                    if (pos > window.innerHeight) {
+                        clearInterval(int);
+                        div.remove();
+                    }
+                }, 20);
+            }
+        }
+
+        /* 
+        ========================================
+        WITHDRAWAL SYSTEM
+        ========================================
+        */
+        function processWithdrawal() {
+            const method = document.getElementById('wd-method').value;
+            const accNum = document.getElementById('wd-acc-num').value;
+            const accName = document.getElementById('wd-acc-name').value;
+            const amount = parseInt(document.getElementById('wd-amount').value);
+
+            if (!accNum || !accName || !amount) return alert("Please fill all fields.");
+            if (amount < 15000) return alert("Minimum withdrawal is Rs. 15,000.");
+            if (amount > currentUser.balance) return alert("Insufficient balance.");
+
+            currentUser.balance -= amount;
+            const trans = {
+                id: 'PPB' + Date.now().toString().slice(-6),
+                method, accNum, amount, date: new Date().toLocaleDateString(), status: 'Pending'
+            };
+            currentUser.withdrawals.unshift(trans);
+            
+            saveUsers();
+            updateUI();
+            renderWithdrawalHistory();
+            alert(`Withdrawal Requested! Ref ID: ${trans.id}. Please wait 3-7 days.`);
+        }
+
+        function renderWithdrawalHistory() {
+            const container = document.getElementById('wd-history');
+            if (currentUser.withdrawals.length === 0) {
+                container.innerHTML = "No transactions yet.";
+                return;
+            }
+            container.innerHTML = currentUser.withdrawals.map(w => `
+                <div class="flex-between" style="border-bottom: 1px solid #222; padding: 5px 0;">
+                    <span>${w.date} - ${w.method}</span>
+                    <span class="text-gold">Rs. ${w.amount} (${w.status})</span>
+                </div>
+            `).join('');
+        }
+
+        /* 
+        ========================================
+        MISC UI RENDERING
+        ========================================
+        */
+        function renderLeaderboard() {
+            const body = document.getElementById('leaderboard-body');
+            // Mock data for top users + current user
+            const topUsers = [
+                { name: "Ahmed K.***", points: 12500 },
+                { name: "Sana M.***", points: 11200 },
+                { name: "Bilal R.***", points: 9800 },
+                { name: "Zainab L.***", points: 8400 },
+                { name: "Umer P.***", points: 7200 }
+            ];
+            
+            let html = "";
+            topUsers.forEach((u, i) => {
+                html += `<tr><td>${i+1}</td><td>${u.name}</td><td>${u.points}</td></tr>`;
+            });
+            html += `<tr class="user-row-highlight"><td>#</td><td>${currentUser.name} (You)</td><td>${currentUser.points}</td></tr>`;
+            body.innerHTML = html;
+        }
+
+        function renderFAQ() {
+            const faqs = [
+                { q: "Is this app free?", a: "Yes, joining is 100% free. We never ask for investment." },
+                { q: "What is the minimum withdrawal?", a: "The minimum withdrawal is Rs. 15,000." },
+                { q: "How many referrals do I need?", a: "You need at least 5 active referrals to unlock the withdrawal page." },
+                { q: "How much is 100 points worth?", a: "Approximately 100 points equal Rs. 10 PKR." },
+                { q: "When do tasks reset?", a: "Every task resets 24 hours after you completed it." },
+                { q: "Which payment methods are available?", a: "We support JazzCash, EasyPaisa, and direct Bank Transfers." },
+                { q: "Can I use multiple accounts?", a: "No, one account per person. Multiple accounts will be banned." },
+                { q: "Why is my withdrawal pending?", a: "Withdrawals are manually verified and take 3-7 working days." }
+            ];
+            document.getElementById('faq-list').innerHTML = faqs.map((f, i) => `
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(${i})">${f.q} <span>▼</span></div>
+                    <div class="faq-answer" id="faq-a-${i}">${f.a}</div>
+                </div>
+            `).join('');
+        }
+
+        window.toggleFaq = (i) => {
+            const el = document.getElementById(`faq-a-${i}`);
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        };
+
+        function submitContact() {
+            const name = document.getElementById('contact-name').value;
+            if (name) {
+                alert(`Thank you, ${name}! Your message has been sent. We will reply via email.`);
+                document.getElementById('contact-name').value = "";
+                document.getElementById('contact-email').value = "";
+                document.getElementById('contact-msg').value = "";
+            }
+        }
+    </script>
+</body>
+</html>
