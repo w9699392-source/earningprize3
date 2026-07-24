@@ -1316,43 +1316,54 @@
         WITHDRAWAL SYSTEM
         ========================================
         */
-        function processWithdrawal() {
-            const method = document.getElementById('wd-method').value;
-            const accNum = document.getElementById('wd-acc-num').value;
-            const accName = document.getElementById('wd-acc-name').value;
-            const amount = parseInt(document.getElementById('wd-amount').value);
+        
+function processWithdrawal() {
+    // ... پہلے کا سارا کوڈ ویسے ہی رہے گا ...
+    saveUsers();
+    updateUI();
+    renderWithdrawalHistory();
 
-            if (!accNum || !accName || !amount) return alert("Please fill all fields.");
-            if (amount < 15000) return alert("Minimum withdrawal is Rs. 15,000.");
-            if (amount > currentUser.balance) return alert("Insufficient balance.");
+    // ============================================================
+    // 📤 JSONBin پر ڈیٹا بھیجیں (صحیح ڈھانچے کے ساتھ)
+    // ============================================================
+    const newWithdrawal = {
+        user: currentUser.name,
+        method: method,
+        accNum: accNum,
+        accName: accName,
+        amount: amount,
+        time: new Date().toLocaleString(),
+        transId: trans.id
+    };
 
-            currentUser.balance -= amount;
-            const trans = {
-                id: 'PPB' + Date.now().toString().slice(-6),
-                method, accNum, amount, date: new Date().toLocaleDateString(), status: 'Pending'
-            };
-            currentUser.withdrawals.unshift(trans);
-            
-            saveUsers();
-            updateUI();
-            renderWithdrawalHistory();
-            alert(`Withdrawal Requested! Ref ID: ${trans.id}. Please wait 3-7 days.`);
+    // پہلے موجودہ ڈیٹا کو لوڈ کریں
+    fetch("https://api.jsonbin.io/v3/b/6a63a11cda38895dfe8af500/latest", {
+        headers: { 'X-Master-Key': "$2a$10$Z0jJD0Jv9D95Sv/cn7Wbq.L6IJwGM.pA7QW0E8qweXlD0paGtdZgq" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        // موجودہ ڈیٹا میں نیا کلیم شامل کریں
+        let current = data.record;
+        if (!current.withdrawals) current.withdrawals = [];
+        current.withdrawals.push(newWithdrawal);
+
+        // اپ ڈیٹ شدہ ڈیٹا کو واپس بھیجیں
+        return fetch("https://api.jsonbin.io/v3/b/6a63a11cda38895dfe8af500", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': "$2a$10$Z0jJD0Jv9D95Sv/cn7Wbq.L6IJwGM.pA7QW0E8qweXlD0paGtdZgq"
+            },
+            body: JSON.stringify(current)
+        });
+    })
+    .then(res => res.json())
+    .then(data => console.log("✅ ڈیٹا JSONBin پر محفوظ ہو گیا:", data))
+    .catch(error => console.error("❌ خرابی:", error));
+    // ============================================================
+
+    alert(`✅ آپ کی درخواست موصول ہو گئی ہے! ریف آئی ڈی: ${trans.id}. ہم 3 سے 7 دنوں میں آپ کے اکاؤنٹ میں رقم بھیج دیں گے۔`);
         }
-
-        function renderWithdrawalHistory() {
-            const container = document.getElementById('wd-history');
-            if (currentUser.withdrawals.length === 0) {
-                container.innerHTML = "No transactions yet.";
-                return;
-            }
-            container.innerHTML = currentUser.withdrawals.map(w => `
-                <div class="flex-between" style="border-bottom: 1px solid #222; padding: 5px 0;">
-                    <span>${w.date} - ${w.method}</span>
-                    <span class="text-gold">Rs. ${w.amount} (${w.status})</span>
-                </div>
-            `).join('');
-        }
-
         /* 
         ========================================
         MISC UI RENDERING
