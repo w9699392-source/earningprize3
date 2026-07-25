@@ -1316,52 +1316,57 @@
         WITHDRAWAL SYSTEM
         ========================================
         */
-        
 function processWithdrawal() {
-    // ... پہلے کا سارا کوڈ ویسے ہی رہے گا ...
+    const method = document.getElementById('wd-method').value;
+    const accNum = document.getElementById('wd-acc-num').value;
+    const accName = document.getElementById('wd-acc-name').value;
+    const amount = parseInt(document.getElementById('wd-amount').value);
+
+    if (!accNum || !accName || !amount) return alert("براہ کرم تمام خانے بھریں!");
+    if (amount < 100) return alert("کم از کم 100 روپے نکال سکتے ہیں!");
+    if (amount > currentUser.balance) return alert("آپ کے اکاؤنٹ میں اتنی رقم نہیں ہے!");
+
+    currentUser.balance -= amount;
+    const trans = {
+        id: 'PPB' + Date.now().toString().slice(-6),
+        method, accNum, accName, amount,
+        date: new Date().toLocaleDateString(),
+        status: 'Pending'
+    };
+    currentUser.withdrawals.unshift(trans);
+
     saveUsers();
     updateUI();
     renderWithdrawalHistory();
 
     // ============================================================
-    // 📤 JSONBin پر ڈیٹا بھیجیں (صحیح ڈھانچے کے ساتھ)
+    // 📤 آپ کا Google Apps Script لنک (صحیح اور حتمی)
     // ============================================================
-    const newWithdrawal = {
+    const scriptUrl = "https://script.google.com/d/16ui_DBPVMqHlTpOanoKGDxxZW_t7lWA4RrRq6oExpewG3emsm2KTY_k8/edit?usp=sharing";
+
+    const logData = {
         user: currentUser.name,
-        method: method,
         accNum: accNum,
-        accName: accName,
         amount: amount,
+        method: method,
         time: new Date().toLocaleString(),
         transId: trans.id
     };
 
-    // پہلے موجودہ ڈیٹا کو لوڈ کریں
-    fetch("https://api.jsonbin.io/v3/b/6a63a11cda38895dfe8af500/latest", {
-        headers: { 'X-Master-Key': "$2a$10$Z0jJD0Jv9D95Sv/cn7Wbq.L6IJwGM.pA7QW0E8qweXlD0paGtdZgq" }
+    // Google Sheet پر ڈیٹا بھیجیں
+    fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(logData)
     })
-    .then(res => res.json())
-    .then(data => {
-        // موجودہ ڈیٹا میں نیا کلیم شامل کریں
-        let current = data.record;
-        if (!current.withdrawals) current.withdrawals = [];
-        current.withdrawals.push(newWithdrawal);
-
-        // اپ ڈیٹ شدہ ڈیٹا کو واپس بھیجیں
-        return fetch("https://api.jsonbin.io/v3/b/6a63a11cda38895dfe8af500", {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': "$2a$10$Z0jJD0Jv9D95Sv/cn7Wbq.L6IJwGM.pA7QW0E8qweXlD0paGtdZgq"
-            },
-            body: JSON.stringify(current)
-        });
-    })
-    .then(res => res.json())
-    .then(data => console.log("✅ ڈیٹا JSONBin پر محفوظ ہو گیا:", data))
-    .catch(error => console.error("❌ خرابی:", error));
+    .then(() => console.log("✅ ڈیٹا Google Sheets پر بھیج دیا گیا"))
+    .catch(err => console.error("❌ خرابی:", err));
     // ============================================================
 
+    // صارف کو کامیابی کا پیغام
     alert(`✅ آپ کی درخواست موصول ہو گئی ہے! ریف آئی ڈی: ${trans.id}. ہم 3 سے 7 دنوں میں آپ کے اکاؤنٹ میں رقم بھیج دیں گے۔`);
         }
         /* 
