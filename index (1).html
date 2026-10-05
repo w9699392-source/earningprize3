@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0e17">
+<title>MegaRewards Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+:root{--bg:#0a0e17;--c:#131b2e;--b:#1e293b;--g:#00ff88;--cy:#00d2ff;--t:#e2e8f0;--m:#94a3b8}
+body{background:#05080f;color:var(--t);font-family:'Plus Jakarta Sans',sans-serif;display:flex;justify-content:center;font-size:14px}
+body.ur{font-family:'Noto Nastaliq Urdu',serif;line-height:2.1}
+#root{width:100%;max-width:480px;min-height:100vh;background:var(--bg);padding-bottom:84px;position:relative}
+header{position:sticky;top:0;z-index:20;background:#0a0e17ee;backdrop-filter:blur(8px);display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--b)}
+header b{flex:1;font-weight:800;color:var(--g);font-size:16px;white-space:nowrap}
+.pill,.ib{background:var(--c);border:1px solid var(--b);color:var(--t);border-radius:20px;padding:6px 10px;font:inherit;font-weight:700;font-size:12px;cursor:pointer}
+.pill{color:var(--g)}
+#app{padding:14px;animation:fi .35s}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin-bottom:8px}
+.card{background:var(--c);border:1px solid var(--b);border-radius:16px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.st{background:var(--c);border:1px solid var(--b);border-radius:14px;padding:12px;text-align:center}
+.st b{display:block;font-size:20px;color:var(--g)}.st span,small,.mu{color:var(--m);font-size:12px}
+.btn{width:100%;background:linear-gradient(135deg,var(--g),var(--cy));color:#04130c;border:0;border-radius:12px;padding:12px;font:inherit;font-weight:800;cursor:pointer;transition:transform .1s}
+.btn:active,.pill:active,.opt:active{transform:scale(.95)}
+.btn.dis,.btn:disabled{background:var(--b);color:var(--m);cursor:not-allowed}
+.btn.sm{width:auto;padding:8px 14px;font-size:12px}.ghost{background:transparent;border:1px solid var(--b);color:var(--t);margin-top:8px}
+.row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.tk{display:flex;align-items:center;gap:10px;background:var(--c);border:1px solid var(--b);border-radius:14px;padding:10px;margin-bottom:8px}
+.tk .ic{font-size:26px}.tk div{flex:1}.tk b{display:block}
+.in,select{width:100%;background:#0a0e17;border:1px solid var(--b);color:var(--t);border-radius:10px;padding:11px;font:inherit;margin:4px 0 10px}
+label{font-size:12px;color:var(--m)}
+.ad{border:2px dashed var(--b);color:var(--m);display:flex;align-items:center;justify-content:center;border-radius:10px;margin:12px auto;font-size:11px;text-align:center}
+.a1{width:300px;max-width:100%;height:250px}.a2{width:320px;max-width:100%;height:50px}.a3{display:none;width:728px;height:90px}
+@media(min-width:760px){.a3{display:flex}}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#0d1322;border-top:1px solid var(--b);display:flex;z-index:20}
+nav button{flex:1;background:0;border:0;color:var(--m);padding:8px 0;font:inherit;font-size:10px;cursor:pointer}
+nav button i{display:block;font-style:normal;font-size:18px}nav .on{color:var(--g)}
+.ov{position:fixed;inset:0;background:#000b;z-index:50;display:none;align-items:center;justify-content:center;padding:14px}.ov.on{display:flex}
+.box{background:var(--c);border:1px solid var(--b);border-radius:18px;padding:18px;width:100%;max-width:420px;max-height:92vh;overflow:auto}
+#dr{position:fixed;top:0;bottom:0;left:50%;margin-left:-240px;width:260px;background:#0d1322;z-index:60;padding:14px;transform:translateX(-120%);transition:.25s;overflow:auto;border-right:1px solid var(--b)}
+#dr.on{transform:none}#dr button{display:block;width:100%;text-align:start;background:0;border:0;color:var(--t);padding:11px 6px;font:inherit;border-bottom:1px solid var(--b)}
+@media(max-width:480px){#dr{margin-left:0;left:0}}
+#toasts{position:fixed;top:64px;left:0;right:0;z-index:99;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.toast{background:#1e293b;border:1px solid var(--g);padding:9px 14px;border-radius:12px;animation:fi .25s;font-weight:600}
+.c{text-align:center}.big{font-size:34px;font-weight:800;margin:10px 0;text-align:center}.qq{font-size:18px;margin:10px 0 14px;font-weight:700}
+.opt{display:block;width:100%;background:#0a0e17;border:1px solid var(--b);color:var(--t);border-radius:10px;padding:12px;margin-bottom:8px;font:inherit;cursor:pointer}
+.tapb{display:block;margin:10px auto;width:150px;height:150px;border-radius:50%;border:0;background:radial-gradient(var(--g),var(--cy));font-size:40px;font-weight:800;color:#04130c}
+.sa{position:relative;height:250px;background:#0a0e17;border:1px solid var(--b);border-radius:12px;overflow:hidden}
+.star{position:absolute;font-size:34px;background:0;border:0;transition:.2s}
+.mg,.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.tg{grid-template-columns:repeat(3,80px);justify-content:center;margin-top:10px}
+.mc,.tc{height:70px;font-size:28px;background:#0a0e17;border:1px solid var(--b);border-radius:10px;color:var(--t)}.mc.o{background:var(--b)}
+.tc{height:80px;font-size:34px;color:var(--g)}
+.sw{position:relative;width:280px;height:140px;margin:0 auto 10px}.sw>*{position:absolute;inset:0;border-radius:12px}
+.sp{background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--g)}#cv{touch-action:none}
+.wh{position:relative;width:220px;height:220px;margin:10px auto 16px}
+.wd{width:100%;height:100%;border-radius:50%;border:4px solid var(--g);background:conic-gradient(#00ff88 0 45deg,#00d2ff 45deg 90deg,#f59e0b 90deg 135deg,#ec4899 135deg 180deg,#00ff88 180deg 225deg,#00d2ff 225deg 270deg,#f59e0b 270deg 315deg,#ec4899 315deg);transition:transform 4s cubic-bezier(.1,.7,.1,1)}
+.ar{position:absolute;top:-16px;left:50%;margin-left:-9px;color:#fff;font-style:normal;font-size:24px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.cd{aspect-ratio:1;border-radius:8px;background:var(--b);border:2px solid transparent;color:var(--m);font:inherit;font-weight:700;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.cd.dn{background:#0b5d3a;color:#fff}.cd.td{border-color:var(--g)}.cd small{font-size:10px}
+.tkt{border:2px dashed var(--g);border-radius:14px;padding:16px;text-align:center;background:#0a1a14}.tkt b{font-size:24px;color:var(--g);letter-spacing:2px}
+.bar{height:8px;background:var(--b);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g),var(--cy))}
+.lb{display:flex;gap:10px;align-items:center;padding:9px;border-radius:10px;margin-bottom:6px;background:var(--c)}.lb.me{background:#0b3d2a;border:1px solid var(--g)}.lb b:last-child{margin-inline-start:auto;color:var(--g)}
+.rk{width:28px;height:28px;border-radius:50%;background:var(--b);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}.r1{background:#facc15;color:#000}.r2{background:#cbd5e1;color:#000}.r3{background:#d97706;color:#000}
+.spn{width:34px;height:34px;border:4px solid var(--b);border-top-color:var(--g);border-radius:50%;animation:rot 1s linear infinite;margin:20px auto}@keyframes rot{to{transform:rotate(360deg)}}
+iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff}
+.cf{position:fixed;top:-20px;font-size:22px;animation:fall 1.6s linear forwards;z-index:99}@keyframes fall{to{transform:translateY(105vh) rotate(360deg)}}
+p{margin-bottom:8px;line-height:1.6}
+</style></head><body>
+<div id="root">
+<header><button class="ib" onclick="dr(1)">☰</button><b>MegaRewards Pro</b><span class="pill" id="pts">0</span><button class="ib" id="lt" onclick="setLang()">UR</button><button class="ib" onclick="logout()">⏻</button></header>
+<main id="app"></main>
+<nav id="nv"></nav>
+</div>
+<div id="dr"></div>
+<div id="auth" class="ov"></div>
+<div id="gm" class="ov"><div class="box"><div class="row"><h3 id="gt"></h3><button class="ib" onclick="closeGame()">✕</button></div><div id="gb"></div></div></div>
+<div id="toasts"></div>
+<!-- REPLACE WITH YOUR CPA NETWORK URL (edit the CPA constant in the script below):
+     Popular CPA Networks for Pakistan:
+     - Adsterra: https://adsterra.com (SmartLink or Direct Link)
+     - MyLead: https://mylead.global
+     - TOROX: https://torox.io
+     - CPAGrip: https://cpagrip.com
+     - OGAds: https://ogads.com -->
+<script>
+const AD='https://www.effectivecpmnetwork.com/gvf1a7zvp?key=29ff465b3e36791ddb1f8f1c48492c43';
+// REPLACE WITH YOUR CPA NETWORK URL (see HTML comment above). {USER_EMAIL} is replaced automatically.
+const CPA='https://your-cpa-network.com/offerwall?user_id={USER_EMAIL}&app_id=YOUR_APP_ID';
+const SHEET='https://sheetdb.io/api/v1/3bpdkrgd6lgap';
+const $=s=>document.querySelector(s);
+let lang=localStorage.getItem('mr_lang')||'en',U=null,D=null,page='home',am='login',CUR=null,TM=[];
+const L=(e,u)=>lang=='ur'?u:e;
+const J=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,shf=a=>a.sort(()=>Math.random()-.5),fN=n=>n.toLocaleString('en-US');
+const ymd=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),ym=()=>ymd().slice(0,7);
+const left=ts=>Math.max(0,864e5-(Date.now()-(ts||0)));
+const hms=ms=>{let s=Math.ceil(ms/1000);return[s/3600|0,s/60%60|0,s%60].map(v=>String(v).padStart(2,'0')).join(':')};
+const save=()=>U&&localStorage.setItem('user_data_'+U.email,JSON.stringify(D));
+function toast(m,i='✅'){const e=document.createElement('div');e.className='toast';e.textContent=i+' '+m;$('#toasts').appendChild(e);setTimeout(()=>e.remove(),2600)}
+function confetti(){for(let i=0;i<22;i++){const e=document.createElement('i');e.className='cf';e.textContent=['🎉','⭐','✨','💚'][i%4];e.style.left=rnd(0,95)+'%';e.style.animationDelay=Math.random()*.5+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2300)}}
+document.addEventListener('touchend',(()=>{let l=0;return e=>{const n=Date.now();if(n-l<300)e.preventDefault();l=n}})(),{passive:false});
+
+const TK=[['math','🧮','Speed Math Challenge','سپیڈ میتھ چیلنج',65],['ttt','⭕','Tic-Tac-Toe Arena','ٹک ٹیک ٹو ارینا',65],['tap','👆','Speed Tap Rush','سپیڈ ٹیپ رش',65],['survey','📋','Quick User Survey','فوری سروے',60],['scratch','🎟️','Lucky Scratch Card','لکی سکریچ کارڈ',65],['spin','🎡','Mega Spin Wheel','میگا اسپن وہیل',65],['memory','🃏','Memory Card Match','میموری کارڈ میچ',65],['fact','❓','Fact or Fiction','حقیقت یا افسانہ',60],['star','⭐','Catch The Star','ستارہ پکڑیں',65],['color','🎨','Color Match Reflex','کلر میچ ریفلیکس',60],['word','🔤','Word Scramble','لفظ جوڑیں',65],['trivia','🧠','Grand Trivia Quiz','گرینڈ ٹریویا کوئز',60]];
+const NM={home:['Home','ہوم','🏠'],tasks:['Tasks','ٹاسکس','🎮'],earn:['Earn More','مزید کمائیں','💰'],dl:['Download & Earn','ایپ ڈاؤن لوڈ کریں','📥'],prizes:['Prizes','انعامات','🎁'],more:['More','مزید','⋯'],draw:['Lucky Draw','لکی ڈرا','🎟️'],withdraw:['Withdraw','رقم نکلوائیں','💵'],board:['Leaderboard','لیڈر بورڈ','🏆'],refs:['Referrals','ریفرلز','🤝'],cal:['Calendar','کیلنڈر','📅'],about:['About','ہمارے بارے میں','ℹ️'],privacy:['Privacy','پرائیویسی','🔒'],contact:['Contact','رابطہ','✉️']};
+const nm=k=>NM[k][lang=='ur'?1:0];
+
+/* ---------- auth ---------- */
+function loadU(){const c=J('megarewards_current_user',null);if(c){U=c;D=Object.assign({points:0,referrals:0,referralCode:'',lastCheckin:0,taskCooldowns:{},hasEnteredRef:false,dailyLog:{},drawTicket:null,downloadedApps:[],wd:[]},J('user_data_'+c.email,{}))}}
+function renderAuth(){const r=am=='reg';$('#auth').classList.add('on');$('#auth').innerHTML=`<div class="box"><h2 class="c">🎁 MegaRewards Pro</h2><div class="row" style="margin-bottom:10px"><button class="btn sm ${r?'ghost':''}" onclick="am='login';renderAuth()" style="flex:1;margin:0">${L('Login','لاگ ان')}</button><button class="btn sm ${r?'':'ghost'}" onclick="am='reg';renderAuth()" style="flex:1;margin:0">${L('Register','رجسٹر')}</button></div>
+${r?`<label>${L('Full name','پورا نام')}</label><input id="aN" class="in">`:''}<label>${L('Email','ای میل')}</label><input id="aE" class="in" type="email"><label>${L('Password (min 6)','پاس ورڈ (کم از کم 6)')}</label><input id="aP" class="in" type="password">
+${r?`<label>${L('Referral code (optional)','ریفرل کوڈ (اختیاری)')}</label><input id="aR" class="in" placeholder="MR123456">`:''}<p id="ae" style="color:#f87171"></p><button class="btn" onclick="doAuth()">${r?L('Create account (+10 pts)','اکاؤنٹ بنائیں (+10 پوائنٹس)'):L('Login','لاگ ان')}</button><button class="btn sm ghost" style="width:100%" onclick="setLang()">${lang=='ur'?'EN':'اردو'}</button></div>`}
+function doAuth(){const e=$('#aE').value.trim().toLowerCase(),p=$('#aP').value,dir=J('megarewards_users_directory',{}),er=m=>$('#ae').textContent=m;
+if(!/^\S+@\S+\.\S+$/.test(e))return er(L('Enter a valid email','درست ای میل درج کریں'));
+if(p.length<6)return er(L('Password must be 6+ characters','پاس ورڈ کم از کم 6 حروف کا ہو'));
+if(am=='login'){if(!dir[e]||dir[e].password!=p)return er(L('Wrong email or password','ای میل یا پاس ورڈ غلط ہے'));U={email:e,name:dir[e].name}}
+else{const n=$('#aN').value.trim(),rf=$('#aR').value.trim().toUpperCase();if(n.length<2)return er(L('Enter your name','اپنا نام درج کریں'));if(dir[e])return er(L('Email already registered','ای میل پہلے سے رجسٹرڈ ہے'));
+let fr=null;if(rf){for(const x in dir){const d=J('user_data_'+x,null);if(d&&d.referralCode==rf){fr=[x,d];break}}if(!fr)return er(L('Invalid referral code','ریفرل کوڈ غلط ہے'));if(fr[0]==e)return er(L('You cannot refer yourself','آپ خود کو ریفر نہیں کر سکتے'))}
+dir[e]={password:p,name:n};localStorage.setItem('megarewards_users_directory',JSON.stringify(dir));
+let code;do{code='MR'+rnd(100000,999999)}while(Object.keys(dir).some(x=>(J('user_data_'+x,{})).referralCode==code));
+U={email:e,name:n};localStorage.setItem('megarewards_current_user',JSON.stringify(U));
+localStorage.setItem('user_data_'+e,JSON.stringify({points:10,referralCode:code}));
+if(fr){window.open(AD,'_blank');if(fr[1].referrals>=5)toast(L('Referrer limit reached','ریفرل کی حد پوری ہو چکی'),'ℹ️');else{fr[1].referrals++;fr[1].points+=50;localStorage.setItem('user_data_'+fr[0],JSON.stringify(fr[1]))}}
+toast(L('Welcome! +10 points','خوش آمدید! +10 پوائنٹس'),'🎉')}
+localStorage.setItem('megarewards_current_user',JSON.stringify(U));loadU();$('#auth').classList.remove('on');page='home';render()}
+function logout(){if(!confirm(L('Log out?','لاگ آؤٹ کریں؟')))return;localStorage.removeItem('megarewards_current_user');U=D=null;render()}
+function setLang(){lang=lang=='ur'?'en':'ur';localStorage.setItem('mr_lang',lang);render()}
+
+/* ---------- navigation ---------- */
+function go(p){if(p=='more')return dr(1);dr(0);page=p;render();scrollTo(0,0)}
+function dr(o){$('#dr').classList.toggle('on',!!o)}
+function render(){document.body.className=lang=='ur'?'ur':'';document.documentElement.dir=lang=='ur'?'rtl':'ltr';document.documentElement.lang=lang;$('#lt').textContent=lang=='ur'?'EN':'UR';
+if(!U){$('#app').innerHTML='';renderAuth();return}
+$('#pts').textContent='⭐ '+fN(D.points);$('#app').innerHTML=P[page]();
+$('#nv').innerHTML=['home','tasks','earn','dl','prizes','more'].map(k=>`<button class="${k==page?'on':''}" onclick="go('${k}')"><i>${NM[k][2]}</i>${nm(k).split(' ')[0]}</button>`).join('');
+$('#dr').innerHTML=`<h3>${U.name}</h3>`+['home','tasks','earn','dl','draw','withdraw','board','refs','cal','about','privacy','contact'].map(k=>`<button onclick="go('${k}')">${NM[k][2]} ${nm(k)}</button>`).join('');
+if(page=='earn')loadOfferwall();if(page=='dl')loadCPA()}
+setInterval(()=>{document.querySelectorAll('[data-cd]').forEach(e=>{const k=e.dataset.cd,ms=left(k=='ci'?D.lastCheckin:D.taskCooldowns[k]);e.textContent=hms(ms);if(ms<=0)render()})},1000);
+
+/* ---------- tasks ---------- */
+function startTask(id){const t=TK.find(x=>x[0]==id);if(left(D.taskCooldowns[id])>0)return;window.open(AD,'_blank');setTimeout(()=>openGame(t),500)}
+function openGame(t){CUR=t;$('#gt').textContent=t[1]+' '+t[lang=='ur'?3:2];$('#gm').classList.add('on');G[t[0]]($('#gb'),()=>award(t))}
+function closeGame(){TM.forEach(i=>{clearInterval(i);clearTimeout(i)});TM=[];$('#gm').classList.remove('on');$('#gb').innerHTML=''}
+const tm=(f,ms,iv)=>{const i=(iv?setInterval:setTimeout)(f,ms);TM.push(i);return i};
+function award(t){D.points+=t[4];D.taskCooldowns[t[0]]=Date.now();D.dailyLog[ymd()]=true;save();confetti();$('#gb').innerHTML=`<div class="big">✅<br>+${t[4]}</div><p class="c">${L('Points added! Come back in 24 hours.','پوائنٹس شامل ہو گئے! 24 گھنٹے بعد واپس آئیں۔')}</p>`;setTimeout(()=>{closeGame();render()},1800)}
+function claimCI(){if(left(D.lastCheckin)>0)return;window.open(AD,'_blank');D.points+=5;D.lastCheckin=Date.now();save();toast(L('+5 daily bonus','+5 روزانہ بونس'),'🎁');render()}
+function fail(b,r,x=''){b.innerHTML=`<p class="c" style="font-size:18px">😕 ${L('Not this time','اس بار نہیں')} ${x}</p><button class="btn">${L('Try again','دوبارہ کوشش کریں')}</button>`;b.querySelector('button').onclick=r}
+function quiz(b,it,need,w){let i=0,s=0;(function nx(){if(i>=it.length){if(s>=need)w();else fail(b,()=>quiz(b,it,need,w),s+'/'+it.length);return}
+const q=it[i];b.innerHTML=`<p class="c"><small>${i+1}/${it.length}</small></p><div class="c qq">${q.q}</div>`+q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('');
+b.querySelectorAll('.opt').forEach(x=>x.onclick=()=>{if(q.a<0||+x.dataset.k==q.a)s++;i++;nx()})})()}
+function mq(){let x=rnd(5,30),y=rnd(2,20),o=rnd(0,2),r;if(o==2){x=rnd(3,12);y=rnd(3,12);r=x*y}else r=o?x-y:x+y;const ops=[r];while(ops.length<4){const v=r+rnd(-9,9);if(!ops.includes(v))ops.push(v)}shf(ops);return{q:`${x} ${['+','−','×'][o]} ${y} = ?`,o:ops.map(String),a:ops.indexOf(r)}}
+const TF=()=>[L('True','درست'),L('False','غلط')];
+const G={
+math:(b,w)=>quiz(b,[mq(),mq(),mq()],3,w),
+survey:(b,w)=>quiz(b,[{q:L('How often do you use your phone?','آپ فون کتنا استعمال کرتے ہیں؟'),o:[L('Every hour','ہر گھنٹے'),L('A few times a day','دن میں چند بار'),L('Rarely','کبھی کبھار')],a:-1},{q:L('Which do you prefer?','آپ کیا پسند کرتے ہیں؟'),o:[L('Games','گیمز'),L('Shopping','شاپنگ'),L('Social media','سوشل میڈیا')],a:-1},{q:L('How did you find us?','آپ ہم تک کیسے پہنچے؟'),o:[L('Friend','دوست'),L('Social media','سوشل میڈیا'),L('Search','سرچ')],a:-1}],3,w),
+fact:(b,w)=>quiz(b,[{q:L('The Sun is a star.','سورج ایک ستارہ ہے۔'),o:TF(),a:0},{q:L('Lahore is the capital of Pakistan.','لاہور پاکستان کا دارالحکومت ہے۔'),o:TF(),a:1},{q:L('Water boils at 100°C at sea level.','پانی سطح سمندر پر 100°C پر ابلتا ہے۔'),o:TF(),a:0}],2,w),
+trivia:(b,w)=>quiz(b,[{q:L('Capital of Pakistan?','پاکستان کا دارالحکومت؟'),o:[L('Karachi','کراچی'),L('Islamabad','اسلام آباد'),L('Lahore','لاہور')],a:1},{q:L('Largest planet?','سب سے بڑا سیارہ؟'),o:[L('Mars','مریخ'),L('Jupiter','مشتری'),L('Earth','زمین')],a:1},{q:L('Founder of Pakistan?','بانی پاکستان؟'),o:[L('M. A. Jinnah','محمد علی جناح'),L('Allama Iqbal','علامہ اقبال'),L('Liaquat Ali Khan','لیاقت علی خان')],a:0}],2,w),
+color:(b,w)=>{const N=[['Red','سرخ','#ff3b3b'],['Green','سبز','#00ff88'],['Blue','نیلا','#3b82f6'],['Yellow','پیلا','#facc15']],o=N.map(c=>L(c[0],c[1]));quiz(b,[0,1,2,3,4].map(()=>{const a=rnd(0,3);let n=rnd(0,3);while(n==a)n=rnd(0,3);return{q:`<small>${L('Pick the INK colour','لکھائی کا رنگ چنیں')}</small><div class="big" style="color:${N[a][2]}">${o[n]}</div>`,o,a}}),4,w)},
+word:(b,w)=>{b.innerHTML=`<p class="c">${L('Unscramble the word','لفظ درست کریں')}</p><div class="big">DRWEAR</div><p class="c mu">${L('Hint: something you earn here','اشارہ: جو آپ یہاں کماتے ہیں')}</p><input id="wi" class="in" maxlength="6"><button class="btn" id="wb">OK</button>`;$('#wb').onclick=()=>{if($('#wi').value.trim().toUpperCase()=='REWARD')w();else toast(L('Wrong, try again','غلط، دوبارہ کوشش کریں'),'❌')}},
+tap:(b,w)=>{let n=0,t=10,on=0,iv;b.innerHTML=`<p class="c">${L('Tap 15 times in 10 seconds','10 سیکنڈ میں 15 بار ٹیپ کریں')}</p><div class="big" id="tt">10s</div><button class="tapb" id="tb">0</button>`;
+$('#tb').onclick=()=>{if(t<=0)return;if(!on){on=1;iv=tm(()=>{t--;$('#tt').textContent=t+'s';if(t<=0){clearInterval(iv);if(n<15)fail(b,()=>G.tap(b,w))}},1000,1)}n++;$('#tb').textContent=n;if(n>=15){clearInterval(iv);w()}}},
+star:(b,w)=>{let n=0,t=12;b.innerHTML=`<p class="c">${L('Catch 5 stars','5 ستارے پکڑیں')} <b id="sc">0/5</b> ⏱ <b id="st">12</b></p><div class="sa"><button class="star" id="sb">⭐</button></div>`;
+const mv=()=>{const s=$('#sb');s.style.left=rnd(0,85)+'%';s.style.top=rnd(0,80)+'%'};mv();const m=tm(mv,800,1),c=tm(()=>{t--;$('#st').textContent=t;if(t<=0){clearInterval(m);clearInterval(c);fail(b,()=>G.star(b,w))}},1000,1);
+$('#sb').onclick=()=>{n++;$('#sc').textContent=n+'/5';mv();if(n>=5){clearInterval(m);clearInterval(c);w()}}},
+memory:(b,w)=>{const e=shf(['🍎','⭐','🎯','💎','🍎','⭐','🎯','💎']);let f=[],ok=0,lock=0;b.innerHTML=`<p class="c">${L('Match all 4 pairs','سب 4 جوڑے ملائیں')}</p><div class="mg">${e.map((x,i)=>`<button class="mc" data-i="${i}">?</button>`).join('')}</div>`;
+b.querySelectorAll('.mc').forEach(c=>c.onclick=()=>{if(lock||c.classList.contains('o'))return;c.textContent=e[c.dataset.i];c.classList.add('o');f.push(c);if(f.length==2){lock=1;if(f[0].textContent==f[1].textContent){ok++;f=[];lock=0;if(ok==4)tm(w,500)}else tm(()=>{f.forEach(x=>{x.textContent='?';x.classList.remove('o')});f=[];lock=0},700)}})},
+ttt:(b,w)=>{const bd=Array(9).fill(''),WL=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];let over=0;
+const win=p=>WL.some(l=>l.every(i=>bd[i]==p)),find=p=>{for(const l of WL){const v=l.map(i=>bd[i]);if(v.filter(x=>x==p).length==2&&v.includes(''))return l[v.indexOf('')]}return-1};
+const paint=m=>{b.innerHTML=`<p class="c">${m||L('You are X. Beat the AI!','آپ X ہیں۔ AI کو ہرائیں!')}</p><div class="tg">${bd.map((v,i)=>`<button class="tc" data-i="${i}">${v}</button>`).join('')}</div>`;if(!over)b.querySelectorAll('.tc').forEach(c=>c.onclick=()=>mv(+c.dataset.i))};
+const end=(m,ok)=>{over=1;paint(m);tm(ok?w:()=>G.ttt(b,w),1300)};
+const mv=i=>{if(bd[i]||over)return;bd[i]='X';if(win('X'))return end('🎉');if(!bd.includes(''))return end(L('Draw! Restarting…','برابری! دوبارہ…'));
+let a=Math.random()<.75?find('O'):-1;if(a<0&&Math.random()<.75)a=find('X');if(a<0){const em=bd.map((v,k)=>v==''?k:-1).filter(k=>k>=0);a=em[rnd(0,em.length-1)]}
+bd[a]='O';if(win('O'))return end(L('AI won. Restarting…','AI جیت گیا۔ دوبارہ…'));if(!bd.includes(''))return end(L('Draw! Restarting…','برابری! دوبارہ…'));paint()};paint()},
+scratch:(b,w)=>{b.innerHTML=`<div class="sw"><div class="sp">🎉 +${CUR[4]}</div><canvas id="cv" width="280" height="140"></canvas></div><p class="c">${L('Scratch to reveal!','کھرچ کر دیکھیں!')}</p>`;
+const cv=$('#cv'),x=cv.getContext('2d');x.fillStyle='#64748b';x.fillRect(0,0,280,140);x.fillStyle='#e2e8f0';x.font='bold 22px sans-serif';x.fillText('SCRATCH HERE',55,78);x.globalCompositeOperation='destination-out';let dn=0,k=0;
+const sc=e=>{if(!dn)return;const r=cv.getBoundingClientRect();x.beginPath();x.arc((e.clientX-r.left)*280/r.width,(e.clientY-r.top)*140/r.height,16,0,7);x.fill();if(++k%8==0){const d=x.getImageData(0,0,280,140).data;let c=0;for(let i=3;i<d.length;i+=40)if(!d[i])c++;if(c>d.length/40*.4){dn=0;cv.style.display='none';tm(w,700)}}};
+cv.onpointerdown=e=>{dn=1;cv.setPointerCapture(e.pointerId);sc(e)};cv.onpointermove=sc;cv.onpointerup=()=>dn=0},
+spin:(b,w)=>{b.innerHTML=`<div class="wh"><div class="wd" id="wd"></div><i class="ar">▼</i></div><button class="btn" id="sp">${L('SPIN','گھمائیں')}</button>`;$('#sp').onclick=function(){this.disabled=1;$('#wd').style.transform=`rotate(${1800+rnd(0,359)}deg)`;tm(w,4300)}}
+};
+
+/* ---------- offerwalls ---------- */
+function loadOfferwall(){const u=U;$('#ows').style.display='block';$('#ofr').onload=()=>$('#ows').style.display='none';$('#ofr').src=`https://offers.cpx-research.com/index.php?app_id=36825&ext_user_id=${encodeURIComponent(u.email)}&username=${encodeURIComponent(u.name)}&email=${encodeURIComponent(u.email)}`}
+function loadCPA(){$('#cws').style.display='block';$('#cfr').onload=()=>$('#cws').style.display='none';$('#cfr').src=CPA.replace('{USER_EMAIL}',encodeURIComponent(U.email))}
+const cpaUrl=()=>CPA.replace('{USER_EMAIL}',encodeURIComponent(U.email));
+
+/* ---------- actions ---------- */
+function enterDraw(){const t=D.drawTicket;if(t&&t.month==ym())return toast(L('Already entered this month','اس مہینے پہلے ہی شامل ہیں'),'ℹ️');if(D.points<500)return toast(L('You need 500 points','500 پوائنٹس درکار ہیں'),'⚠️');if(!confirm(L('Spend 500 points for 1 ticket?','500 پوائنٹس میں 1 ٹکٹ لیں؟')))return;D.points-=500;D.drawTicket={code:'LD-'+rnd(100000,999999),month:ym()};save();confetti();render()}
+function calClick(d,x){toast(L('Day '+d+': '+(x?'Unlocked':'Locked'),'دن '+d+': '+(x?'اَن لاک':'لاک')),x?'✅':'🔒')}
+function copyRef(){navigator.clipboard?navigator.clipboard.writeText(D.referralCode).then(()=>toast(L('Code copied','کوڈ کاپی ہو گیا')),()=>toast(D.referralCode)):toast(D.referralCode)}
+function shareRef(){window.open('https://wa.me/?text='+encodeURIComponent(L('Join MegaRewards Pro and earn rewards! Use my code '+D.referralCode+' → ','میگا ریوارڈز پرو جوائن کریں! میرا کوڈ '+D.referralCode+' → ')+location.href),'_blank')}
+async function wdSubmit(){const m=$('#wm').value,n=$('#wn').value.trim(),e=$('#we').value.trim(),p=$('#wp').value.trim().replace(/[-\s]/g,''),pt=+$('#wpt').value;
+if(n.length<3||!/^\S+@\S+\.\S+$/.test(e)||!/^03\d{9}$/.test(p))return toast(L('Check name, email, phone (03XXXXXXXXX)','نام، ای میل، فون (03XXXXXXXXX) چیک کریں'),'⚠️');
+if(pt<6000||pt>D.points)return toast(L('Min 6,000 points, within your balance','کم از کم 6,000 پوائنٹس، بیلنس کے اندر'),'⚠️');
+if(!confirm(L('Submit withdrawal request?','رقم نکلوانے کی درخواست جمع کریں؟')))return;window.open(AD,'_blank');$('#wsub').disabled=true;$('#wsub').textContent='…';
+try{const r=await fetch(SHEET,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:{Name:n,Email:e,Phone:p,Method:m,Points:pt,Date:new Date().toISOString(),Status:'Pending'}})});if(!r.ok)throw 0;D.points-=pt;D.wd.unshift({m,pt,d:ymd()});save();confetti();toast(L('Request submitted!','درخواست جمع ہو گئی!'))}catch(x){toast(L('Failed. Check your connection.','ناکام۔ انٹرنیٹ چیک کریں۔'),'❌')}render()}
+
+/* ---------- pages ---------- */
+const ad=()=>`<div class="ad a1">${L('Advertisement 300x250','اشتہار 300x250')}</div>`,adB=()=>`<div class="ad a2">${L('Advertisement 320x50','اشتہار 320x50')}</div>`,adL=()=>`<div class="ad a3">${L('Advertisement 728x90','اشتہار 728x90')}</div>`;
+const tix=()=>D.drawTicket&&D.drawTicket.month==ym()?1:0;
+const streak=()=>{let s=0,d=new Date();if(!D.dailyLog[ymd(d)])d.setDate(d.getDate()-1);while(D.dailyLog[ymd(d)]){s++;d.setDate(d.getDate()-1)}return s};
+const dLeft=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth()+1,0).getDate()-n.getDate()};
+const info=(k,t,x)=>`<h2>${NM[k][2]} ${nm(k)}</h2><div class="card"><p>${t}</p>${x||''}</div>`;
+const P={
+home:()=>{const ci=left(D.lastCheckin),done=TK.filter(t=>left(D.taskCooldowns[t[0]])>0).length;
+return`<h2>${L('Welcome','خوش آمدید')}, ${U.name} 👋</h2><div class="grid"><div class="st"><b>${fN(D.points)}</b><span>${L('Points','پوائنٹس')}</span></div><div class="st"><b>${tix()}</b><span>${L('Lucky tickets','لکی ٹکٹ')}</span></div><div class="st"><b>${streak()} 🔥</b><span>${L('Day streak','دن کی لڑی')}</span></div><div class="st"><b>${done}/12</b><span>${L('Tasks done','مکمل ٹاسکس')}</span></div></div>
+<div class="card row"><div><h3>🎁 ${L('Daily check-in','روزانہ چیک اِن')}</h3><span class="mu">+5 ${L('points every 24h','پوائنٹس ہر 24 گھنٹے')}</span></div>${ci>0?`<button class="btn sm dis" disabled data-cd="ci">${hms(ci)}</button>`:`<button class="btn sm" onclick="claimCI()">${L('Claim +5','حاصل کریں +5')}</button>`}</div>
+<button class="btn" onclick="go('tasks')">🎮 ${L('Play daily tasks','روزانہ ٹاسکس کھیلیں')}</button>${ad()}${adL()}${adB()}`},
+tasks:()=>`<h2>🎮 ${L('Daily Tasks','روزانہ ٹاسکس')}</h2>`+TK.map(t=>{const l=left(D.taskCooldowns[t[0]]);return`<div class="tk"><span class="ic">${t[1]}</span><div><b>${t[lang=='ur'?3:2]}</b><span class="mu">+${t[4]} ${L('pts','پوائنٹس')}</span></div>${l>0?`<button class="btn sm dis" disabled data-cd="${t[0]}">${hms(l)}</button>`:`<button class="btn sm" onclick="startTask('${t[0]}')">${L('Play & Claim','کھیلیں اور حاصل کریں')}</button>`}</div>`}).join('')+adB(),
+earn:()=>`<h2>💰 ${nm('earn')}</h2><div class="card"><p>${L('Surveys refresh every few minutes.','سروے ہر چند منٹ بعد اپ ڈیٹ ہوتے ہیں۔')}</p><p class="mu">${L('1. Click a survey. 2. Complete it. 3. Earn points instantly.','1۔ سروے پر کلک کریں۔ 2۔ مکمل کریں۔ 3۔ فوراً پوائنٹس کمائیں۔')}</p><p class="mu">1 USD = 70 ${L('points (credited by postback)','پوائنٹس (پوسٹ بیک سے شامل ہوں گے)')}</p></div>
+<div class="row" style="margin-bottom:10px"><button class="btn sm" onclick="loadOfferwall()">🔄 ${L('Refresh Offerwall','آفر وال ریفریش')}</button><button class="btn sm ghost" style="margin:0" onclick="window.open($('#ofr').src,'_blank')">${L('Open in New Tab','نئے ٹیب میں کھولیں')}</button></div><div class="spn" id="ows"></div><iframe id="ofr" title="CPX"></iframe>`,
+dl:()=>{const O=[['🎯','Sample App A','Install, open, reach level 5','انسٹال کریں، کھولیں، لیول 5 تک پہنچیں',700],['🛍️','Sample App B','Install and register an account','انسٹال کریں اور اکاؤنٹ بنائیں',350],['🎲','Sample App C','Install and play 10 minutes','انسٹال کریں اور 10 منٹ کھیلیں',500]];
+return`<h2>📥 ${nm('dl')}</h2><div class="card"><p>${L('Download apps, reach the required level, earn points.','ایپس ڈاؤن لوڈ کریں، مطلوبہ لیول تک پہنچیں، پوائنٹس کمائیں۔')}</p><h3>${L('Why download apps?','ایپس کیوں ڈاؤن لوڈ کریں؟')}</h3><p class="mu">${L('App developers pay us when real users try their apps; we share that reward with you as points.','ایپ ڈیولپرز حقیقی صارفین کے ایپ آزمانے پر ہمیں ادائیگی کرتے ہیں؛ ہم یہ انعام پوائنٹس کی صورت میں آپ کو دیتے ہیں۔')}</p></div>
+<h3>${L('Sample offers (examples — real offers load below)','نمونہ آفرز (مثالیں — اصل آفرز نیچے لوڈ ہوں گی)')}</h3>`+O.map(o=>`<div class="tk"><span class="ic">${o[0]}</span><div><b>${o[1]}</b><span class="mu">${o[lang=='ur'?3:2]}</span></div><b style="color:var(--g)">+${o[4]}</b></div>`).join('')+`<div class="row" style="margin:10px 0"><button class="btn sm" onclick="loadCPA()">🔄 ${L('Refresh','ریفریش')}</button><button class="btn sm ghost" style="margin:0" onclick="window.open(cpaUrl(),'_blank')">${L('Open in New Tab','نئے ٹیب میں کھولیں')}</button></div><div class="spn" id="cws"></div><iframe id="cfr" title="CPA" style="height:600px"></iframe>
+<h3 style="margin-top:12px">✅ ${L('Completed offers','مکمل آفرز')}</h3>`+(D.downloadedApps.length?D.downloadedApps.map(a=>`<div class="tk">${a}</div>`).join(''):`<div class="card c mu">${L('No completed offers yet. Install an app above to start.','ابھی کوئی آفر مکمل نہیں۔ شروع کرنے کے لیے اوپر سے ایپ انسٹال کریں۔')}</div>`)},
+prizes:()=>{const Z=[['💵','Rs. 5,000','Rs. 5,000',6000],['⌚','Smart Watch / Rs. 10,000','سمارٹ واچ / Rs. 10,000',10000],['🍎⌚','iPhone Watch / Rs. 15,000','آئی فون واچ / Rs. 15,000',15000],['📱','Apple iPhone / Rs. 20,000','ایپل آئی فون / Rs. 20,000',20000]];
+return`<h2>🎁 ${nm('prizes')}</h2>`+Z.map(z=>{const p=Math.min(100,D.points/z[3]*100);return`<div class="card"><div class="row"><h3>${z[0]} ${z[lang=='ur'?2:1]}</h3><span class="pill">${fN(z[3])}</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="row"><span class="mu">${fN(D.points)} / ${fN(z[3])}</span><button class="btn sm ${p<100?'dis':''}" ${p<100?'disabled':''} onclick="go('withdraw')">${L('Redeem','حاصل کریں')}</button></div></div>`}).join('')},
+draw:()=>{const t=tix()?D.drawTicket:null,W=[['Ahmed Raza','Lahore','Rs. 5,000'],['Ayesha Khan','Karachi','Smart Watch'],['Bilal Hussain','Faisalabad','Rs. 10,000'],['Sana Malik','Multan','Rs. 5,000']];
+return`<h2>🎟️ ${nm('draw')}</h2><div class="card"><p>500 ${L('points = 1 ticket (1 per month)','پوائنٹس = 1 ٹکٹ (ماہانہ 1)')}</p><p class="mu">⏳ ${dLeft()} ${L('days left to enter','دن باقی ہیں')}</p>${t?`<div class="tkt"><p>${L('You have entered the Monthly Lucky Draw!','آپ ماہانہ لکی ڈرا میں شامل ہو گئے ہیں!')}</p><b>${t.code}</b></div>`:`<button class="btn" onclick="enterDraw()">${L('Enter Draw (500 pts)','ڈرا میں شامل ہوں (500 پوائنٹس)')}</button>`}</div>
+<h3>🏆 ${L('Past winners (sample list)','پچھلے فاتحین (نمونہ فہرست)')}</h3>`+W.map(w=>`<div class="lb"><span class="rk">🏆</span><div><b>${w[0]}</b><br><span class="mu">${w[1]}</span></div><b>${w[2]}</b></div>`).join('')},
+withdraw:()=>`<h2>💵 ${nm('withdraw')}</h2><div class="card"><label>${L('Method','طریقہ')}</label><select id="wm"><option>JazzCash</option><option>EasyPaisa</option><option>Bank Transfer</option></select><label>${L('Full name','پورا نام')}</label><input id="wn" class="in" value="${U.name}"><label>${L('Email','ای میل')}</label><input id="we" class="in" value="${U.email}"><label>${L('Phone','فون')}</label><input id="wp" class="in" type="tel" placeholder="03XXXXXXXXX"><label>${L('Points (min 6,000)','پوائنٹس (کم از کم 6,000)')} — ${fN(D.points)}</label><input id="wpt" class="in" type="number" min="6000" value="6000"><button class="btn" id="wsub" onclick="wdSubmit()">${L('Submit request','درخواست جمع کریں')}</button></div>
+<h3>${L('History','تاریخ')}</h3>`+(D.wd.length?D.wd.map(w=>`<div class="lb"><span>💵</span><div><b>${w.m}</b><br><span class="mu">${w.d}</span></div><b>${fN(w.pt)}</b></div>`).join(''):`<div class="card c mu">${L('No withdrawals yet.','ابھی کوئی رقم نہیں نکلوائی گئی۔')}</div>`),
+board:()=>{let a=[['Muhammad Ali',48200],['Fatima Noor',41750],['Usman Tariq',39100],['Hira Shahid',33600],['Zain Abbas',28450],['Maryam Iqbal',24900],['Hamza Sheikh',21300],['Nimra Aslam',18750],['Saad Qureshi',15200],['Kiran Javed',12400]].map(x=>({n:x[0],p:x[1]}));a.push({n:U.name,p:D.points,me:1});a.sort((x,y)=>y.p-x.p);const top=a.slice(0,10);if(!top.some(x=>x.me))top.push(a.find(x=>x.me));
+return`<h2>🏆 ${nm('board')}</h2><p class="mu">${L('Sample leaderboard for demo.','ڈیمو کے لیے نمونہ لیڈر بورڈ۔')}</p>`+top.map(x=>{const r=a.indexOf(x)+1;return`<div class="lb ${x.me?'me':''}"><span class="rk ${r<4?'r'+r:''}">${r}</span><b>${x.n}</b><b>${fN(x.p)}</b></div>`}).join('')+adB()},
+refs:()=>`<h2>🤝 ${nm('refs')}</h2><div class="card c"><p class="mu">${L('Your referral code','آپ کا ریفرل کوڈ')}</p><div class="big" style="color:var(--g)">${D.referralCode}</div><div class="row"><button class="btn sm" onclick="copyRef()">📋 ${L('Copy','کاپی')}</button><button class="btn sm" onclick="shareRef()">💬 WhatsApp</button></div><p style="margin-top:12px">${D.referrals} / 5 ${L('referrals used','ریفرلز استعمال ہوئے')}</p>${D.referrals>=5?`<p style="color:#f87171">${L('Limit Reached','حد پوری ہو گئی')}</p>`:''}<p class="mu">+50 ${L('points per verified referral','پوائنٹس ہر تصدیق شدہ ریفرل')}</p></div>`,
+cal:()=>{const n=new Date(),y=n.getFullYear(),m=n.getMonth(),dim=new Date(y,m+1,0).getDate(),off=new Date(y,m,1).getDay(),td=n.getDate();let c='<i></i>'.repeat(off);
+for(let d=1;d<=dim;d++){const dn=D.dailyLog[y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0')];c+=`<button class="cd ${dn?'dn':''} ${d==td?'td':''}" onclick="calClick(${d},${dn?1:0})">${d}<small>${dn?'✔':d>td?'🔒':'&nbsp;'}</small></button>`}
+const act=Object.keys(D.dailyLog).filter(k=>k.startsWith(ym())).length;return`<h2>📅 ${nm('cal')}</h2><div class="card"><div class="cal">${c}</div></div><div class="card row"><b>${act} / ${dim} ${L('days active','دن فعال')}</b><b>${L('Current streak','موجودہ لڑی')}: ${streak()} ${L('days','دن')} 🔥</b></div>`},
+about:()=>info('about',L('MegaRewards Pro is a rewards platform where you play quick daily games, take surveys, try apps and earn points toward prizes and cash rewards.','میگا ریوارڈز پرو ایک انعامی پلیٹ فارم ہے جہاں آپ روزانہ گیمز کھیل کر، سروے کر کے اور ایپس آزما کر انعامات اور نقد رقم کے لیے پوائنٹس کما سکتے ہیں۔')),
+privacy:()=>info('privacy',L('We keep your data minimal. Your account details are stored on your device. Withdrawal details are sent only to process your payout. We never sell your personal information.','ہم آپ کا ڈیٹا کم سے کم رکھتے ہیں۔ آپ کے اکاؤنٹ کی تفصیلات آپ کے آلے پر محفوظ ہیں۔ رقم نکلوانے کی تفصیلات صرف ادائیگی کے لیے بھیجی جاتی ہیں۔ ہم آپ کی ذاتی معلومات فروخت نہیں کرتے۔')),
+contact:()=>info('contact',`📧 support@megarewardspro.com<br>⏱ ${L('Response: 24-48 hours','جواب: 24 تا 48 گھنٹے')}<br>🕘 ${L('Mon-Sat, 9AM-9PM PKT','پیر تا ہفتہ، صبح 9 تا رات 9 (پاکستانی وقت)')}`)
+};
+loadU();render();
+</script></body></html>
